@@ -1,0 +1,96 @@
+:root{
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --font-family: 'Roboto Condensed', sans-serif;
+    --font-size: 16px;
+    --background-color: #fff;
+    --text-color: #333;
+}
+
+/*Colores temporales mientras se define el diseño*/
+body, div {
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-color);
+}
+
+header, .brand, .menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--secondary-color);
+}
+
+.brand {
+    justify-content: center;
+}
+.menu, .item {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    height: 28px;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+li {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+ul {
+    display: flex;
+    list-style-type: none;
+    
+}
+
+.logo {
+    width: 80px;
+    height: auto;
+    margin: 10px 0;
+    background-color: var(--secondary-color);
+}
+
+.title h1, .title{
+    background-color: var(--secondary-color);
+    font-size: xx-large;
+    color: var(--background-color);
+    margin-left: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--background-color);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.banner {
+    width: 100%;
+    height: auto;
+    margin: 20px 0;
+}
+
+footer div div p, footer div div h4, footer div {
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+    text-align: center;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--secondary-color);
+}
