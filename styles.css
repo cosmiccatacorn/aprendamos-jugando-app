@@ -12,8 +12,15 @@ main {
     flex-direction: column;
     gap: 1rem;
     flex-grow: 1;
-
     padding: 1rem;
+}
+
+.todo-main{
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    width: 70%;
+    flex-direction: column;
 }
 
 footer {
@@ -42,7 +49,7 @@ p {
     justify-items: center;
     justify-content: space-evenly;
     height: 150px;
-    background-color: aqua;
+    background-color: #2ecc71;
 
 }
 
@@ -64,7 +71,8 @@ p {
     font-family: cursive;
     align-items: center;
     justify-items: center;
-
+    font-size: 23px;
+    gap: 1rem;
 }
 
 
@@ -94,13 +102,14 @@ p {
 }
 
 .navegar button:hover {
-    background-color: purple;
+    background-color: #3498db;
     transform: scale(1.2);
+
 }
 
 
 footer {
-    background-color: rgb(20, 70, 99);
+    background-color: #2ecc71;
     text-align: center;
 }
 
@@ -189,7 +198,11 @@ footer {
 
 
 .opciones-productos button:hover {
-    background-color: purple;
+    background-color: #3498db;
+}
+
+.opciones-productos p{
+    text-align: justify;
 }
 
 .titulos {
@@ -210,4 +223,9 @@ footer {
 .informacion p{
     font-size: 20px;
     text-align: justify;
+}
+
+.logo{
+    height: 120px;
+    width: 120px;
 }
