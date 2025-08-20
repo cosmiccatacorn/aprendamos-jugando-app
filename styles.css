@@ -1,6 +1,35 @@
+html,
 body {
-    min-height: 100%vh;
-    margin: 0%;
+    height: 100%;
+    margin: 0;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+
+    flex-direction: column;
+    gap: 1rem;
+    flex-grow: 1;
+
+    padding: 1rem;
+}
+
+footer {
+    position: none;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+}
+
+p {
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 10px;
 }
 
 .cabeza {
@@ -12,7 +41,7 @@ body {
     text-align: center;
     justify-items: center;
     justify-content: space-evenly;
-    height: 200px;
+    height: 150px;
     background-color: aqua;
 
 }
@@ -21,11 +50,10 @@ body {
     display: flex;
     align-items: center;
     justify-items: center;
-    flex-direction: column;
+    flex-direction: row;
     gap: 1rem;
     font-size: 20px;
     list-style-type: none;
-
 
     padding: 0%;
     margin: 0%;
@@ -40,7 +68,7 @@ body {
 }
 
 
-.navegar a{
+.navegar a {
     text-decoration: none;
     color: black;
 }
@@ -50,12 +78,12 @@ body {
 .navegar li {
     display: flex;
     justify-content: center;
-    gap: 5px;
     flex-direction: row;
     width: 100%;
     border: none;
     border-radius: 0.5rem;
     border-top: 0%;
+    width: auto;
 }
 
 .navegar button {
@@ -65,17 +93,117 @@ body {
     width: 100%;
 }
 
-.navegar button:hover{
+.navegar button:hover {
     background-color: purple;
+    transform: scale(1.2);
 }
 
 
-footer{
+footer {
     background-color: rgb(20, 70, 99);
     text-align: center;
 }
 
-.informacion{
+
+
+.informacion {
     font-family: cursive;
-    
+    background-color: dodgerblue;
+    /* Usando este color, ya que lo tienes repetido */
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+    padding: 1rem;
+}
+
+.informacion>div {
+    background-color: #f1f1f1;
+    color: #000;
+    padding: 10px;
+    font-size: 30px;
+    text-align: center;
+}
+
+/* El elemento de arriba que abarca todo el ancho */
+.seccion-1 {
+    grid-column: 1 / span 2;
+
+}
+
+/* El elemento de la izquierda en la fila de en medio */
+.seccion-2 {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+/* El elemento de la derecha en la fila de en medio */
+.seccion-3 {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+/* El elemento de abajo que abarca todo el ancho */
+.seccion-4 {
+    grid-column: 1 / span 2;
+}
+
+
+
+.opciones-productos {
+    display: flex;
+    gap: 1rem;
+    background-color: silver;
+    justify-items: center;
+    padding: 1rem;
+    width: 80%;
+
+    border-radius: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Crea 2 columnas del mismo tamaño */
+    grid-template-rows: repeat(2, 1fr);
+    /* Crea 2 filas del mismo tamaño */
+    gap: 10px;
+
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+}
+
+.opciones-productos button {
+    font-family: cursive;
+    font-size: 1.2rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    width: 100%;
+    border: none;
+    height: 3rem;
+}
+
+.opciones-productos section {
+    width: 100%;
+    height: 100%;
+    background-color: burlywood;
+    border-radius: 1rem;
+    text-align: center;
+}
+
+
+.opciones-productos button:hover {
+    background-color: purple;
+}
+
+.titulos {
+    background-color: silver;
+    text-align: center;
+    font-family: cursive;
+    width: 50%;
+    border-radius: 1rem;
+    margin-top: 1rem;
+}
+
+.todo {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
