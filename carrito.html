@@ -1,49 +1,75 @@
 <!DOCTYPE html>
 
 <html>
+    <head>
+        <title>Aprendamos Jugando</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="script.js" defer></script>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="assets/logo-removebg-preview.png">
+    </head>
+    <body>
+        <header>
+            <div class="brand">
+                <div class="logo"><img class="logo" src="assets/logo-removebg-preview.png">
+                </div>
+                <div class="title"><h1> Aprendamos jugando </h1></div>
+                
 
-<head>
-    <title>Aprendamos Jugando - Productos</title>
-    <script src="script.js"></script>
-    <link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-
-    <div class="todo">
-        <header class="cabeza">
-            <div class="titulo-principal">
-                <img class="logo" src="/assets/logo-removebg-preview.png">
-                <h1>Aprendamos jugando</h1>
             </div>
-            <div class="menu">
-                <ul class="navegar">
-                    <li><button class="botones"><a href="index.html">Inicio</a></button></li>
-                    <li><button class="botones"><a href="catalogo.html">Productos</a></button></li>
-                    <li><button class="botones"><a href="carrito.html">Mi carrito</a></button></li>
-                </ul>
-            </div>
+                <nav class="menu">
+                    <ul>
+                        <li class="item"><a href="index.html">Inicio</a></li>
+                        <li class="item dropdown">
+                            <a href="catalogo.html">Productos</a>
+                            <ul class="submenu">
+                                <li><a href="catalogo.html?cat=Grafomotricidad">Grafomotricidad</a></li>
+                                <li><a href="catalogo.html?cat=Libros sensoriales">Libros sensoriales</a></li>
+                                <li><a href="catalogo.html?cat=Flashcards">Flashcards</a></li>
+                                <li><a href="catalogo.html?cat=Imprimibles">Imprimibles</a></li>
+                                <li><a href="catalogo.html?cat=Otras">Otras</a></li>
+                            </ul>
+                        </li>
+                        <li class="item"><a href="carrito.html">Mi carrito</a></li>
+                    </ul>
+                </nav>
         </header>
         <main>
-
-            <div class="todo-main">
-                <div class="titulos">
-                    <h1>Tu carrito🛒!!!</h1>
+            <h1>Mi carrito 🛒</h1>
+            <div class="contenedor">
+                <div class="product-summary">
+                    
                 </div>
+                <div>
+                    <span>
+                        Total Payout:
 
+
+                    </span>
+                </div>
             </div>
+            <nav>
+                <button> Check Out & Pay</button>
+            </nav>
+            
 
         </main>
         <footer>
-            <div>
-                <div>
-                    <p>Detalles de la empresa</p>
-                    <p>Ubicación</p>
+            <div class="columnas">
+                <div class="contacto">
+                    <a target="_blank" href="https://www.instagram.com/aprendamosjugandooficial"><p>Instagram</p></a>
+                    
+                    <a target="_blank" href="wa.me/message/OIBRGLZPT4XOA1"><p>WhatsApp</p></a>
+                    <p>E-mail</p>
                 </div>
                 <div>
-                    <h4>Desarrollado por: IngeBits</h4>
-                    <p>Mariana Catalina Sandoval Perez</p>
-                    <p>David Santiago Murcia Barrera</p>
+
+
+                  <a href="devteam.html"><h4>Desarrollado por: IngeBits</h4>
+                    <p> Software hecho con ❤️</p>
                 </div>
             </div>
         </footer>
