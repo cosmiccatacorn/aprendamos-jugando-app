@@ -10,6 +10,8 @@ body {
 :root{
     --primary-color: #3498db;
     --secondary-color: #2ecc71;
+    --tertiary-color: #adcadd;
+    --quaternary-color: #07951f;
     --font-family: 'Roboto Condensed', sans-serif;
     --font-size: 16px;
     --background-color: #fff;
@@ -17,10 +19,14 @@ body {
 }
 
 /*Colores temporales mientras se define el diseño*/
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
 body, div {
     font-family: var(--font-family);
     font-size: var(--font-size);
-    background-color: var(--background-color);
+    
     color: var(--text-color);
     margin: 0;
     padding: 0;
@@ -63,7 +69,7 @@ footer {
 p {
     margin-bottom: 0;
     margin-top: 0;
-    padding: 10px;
+    padding: 1rem;
 }
 
 .cabeza {
@@ -139,26 +145,35 @@ p {
 
 
 .informacion {
-    font-family: cursive;
-    /* Usando este color, ya que lo tienes repetido */
+    
     display: grid;
     grid-template-columns: 50% ;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin: 1rem;
+    width: 80%;;
+    gap: 1rem;
 
 
 }
 
-.informacion>div {
+.informacion>div{
     background-color: #f1f1f1;
     color: #000;
-    padding: 10px;
     font-size: 30px;
     text-align: center;
+    padding: 1rem;
+    border-radius: 1rem;
 }
 
 /* El elemento de arriba que abarca todo el ancho */
 .seccion-1 {
     grid-column: 1 / span 2;
+}
 
+.informacion>div:hover {
+    background-color: var(--tertiary-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* El elemento de la izquierda en la fila de en medio */
@@ -663,16 +678,17 @@ footer div div p, footer div div h4, footer div {
     background-color: rgba(0, 0, 0, 0);
 }
 .cv-header {
+    background-color: rgba(0, 0, 0, 0);
     display: flex;
     align-items: center;
     gap: 16px;
     margin-bottom: 12px;
 }
 .cv-photo img, .cv-photo {
+    background-color: rgba(0, 0, 0, 0);
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    background: var(--background-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -680,15 +696,18 @@ footer div div p, footer div div h4, footer div {
     color: var(--text-color);
 }
 .cv-name {
+    background-color: rgba(0, 0, 0, 0);
     font-size: 1.4em;
     font-weight: bold;
     color: var(--primary-color);
 }
 .cv-role {
+    background-color: rgba(0, 0, 0, 0);
     font-size: 1em;
     color: #4a5568;
 }
 .cv-section-title {
+    background-color: rgba(0, 0, 0, 0);
     background-color: rgba(255,255,255,0.5);
     font-size: 1.1em;
     font-weight: bold;
@@ -697,6 +716,7 @@ footer div div p, footer div div h4, footer div {
     margin-bottom: 4px;
 }
 .cv-section-content {
+    background-color: rgba(0, 0, 0, 0);
     font-size: 0.98em;
     color: #374151;
     margin-bottom: 8px;
