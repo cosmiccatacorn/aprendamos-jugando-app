@@ -842,17 +842,19 @@ main {
     color: white;
     text-align: center;
     font-size: 1.5rem;;
-    border-radius: 1rem;
 
 }
 
 .img{
-    width: 300px;
-    height: 300px;
+    width: 100%;
     display: flex;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
 }
 
 .nombre-cartas{
     /* precios */
-    height: 4rem;
+    height: 100%;
+    margin-top: 0;
+
 }
