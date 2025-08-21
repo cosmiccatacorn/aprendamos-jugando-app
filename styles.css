@@ -35,6 +35,7 @@ main {
     gap: 1rem;
     flex-grow: 1;
     padding: 1rem;
+    margin: 1rem;
 }
 
 .todo-main{
@@ -42,6 +43,7 @@ main {
     align-items: center;
     justify-items: center;
     flex-direction: column;
+
 }
 
 
@@ -467,7 +469,7 @@ footer div div p, footer div div h4, footer div {
         width: 100%;
     }
 
-    .titulos>h1 {
+    .titulos>h1, .titulos {
         font-size: xx-large;
     }
     
@@ -487,6 +489,10 @@ footer div div p, footer div div h4, footer div {
         width: 2rem;
         height: 2rem;
     }
+
+    main {
+        margin: 0.5rem;
+    }
     
     .informacion {
         display: flex;
@@ -504,13 +510,16 @@ footer div div p, footer div div h4, footer div {
     .menu .dropdown .submenu {
     display: none !important;
     pointer-events: none;
-  }
-  .menu .dropdown > a {
+    }
+    .menu .dropdown > a {
     pointer-events: auto;
   }
 }
 
 @media (max-width: 480px){ 
+    main {
+        margin: 0.5rem;
+    }
 
 
     html {
@@ -635,15 +644,23 @@ footer div div p, footer div div h4, footer div {
     background-color: rgba(0, 0, 0, 0);
 }
 .cv-template {
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    padding: 24px;
+    margin: 16px 0;
+
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    padding: 32px 24px;
+    
     width: 340px;
     min-height: 500px;
     display: flex;
     flex-direction: column;
     gap: 18px;
     background-color: rgba(255,255,255,0.5);
+}
+
+.cv-template div {
+    background-color: rgba(0, 0, 0, 0);
 }
 .cv-header {
     display: flex;
@@ -782,13 +799,5 @@ main {
 
 
 
-.cv-template {
-    background: rgba(255,255,255,0.5); /* Fondo blanco semitransparente */
-    border-radius: 16px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-    padding: 24px;
-    margin: 16px 0;
-}
-.cv-template {
-    margin: 16px;
-}
+
+
