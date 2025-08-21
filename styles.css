@@ -19,10 +19,14 @@ body {
 }
 
 /*Colores temporales mientras se define el diseño*/
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
 body, div {
     font-family: var(--font-family);
     font-size: var(--font-size);
-    background-color: var(--background-color);
+    
     color: var(--text-color);
     margin: 0;
     padding: 0;
@@ -597,17 +601,22 @@ footer div div p, footer div div h4, footer div {
     gap: 18px;
     background-color: rgba(255,255,255,0.5);
 }
+
+.cv-container .cv-template div div{
+    background-color: rgba(0, 0, 0, 0);
+}
 .cv-header {
+    background-color: rgba(0, 0, 0, 0);
     display: flex;
     align-items: center;
     gap: 16px;
     margin-bottom: 12px;
 }
 .cv-photo img, .cv-photo {
+    background-color: rgba(0, 0, 0, 0);
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    background: var(--background-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -615,15 +624,18 @@ footer div div p, footer div div h4, footer div {
     color: var(--text-color);
 }
 .cv-name {
+    background-color: rgba(0, 0, 0, 0);
     font-size: 1.4em;
     font-weight: bold;
     color: var(--primary-color);
 }
 .cv-role {
+    background-color: rgba(0, 0, 0, 0);
     font-size: 1em;
     color: #4a5568;
 }
 .cv-section-title {
+    background-color: rgba(0, 0, 0, 0);
     background-color: rgba(255,255,255,0.5);
     font-size: 1.1em;
     font-weight: bold;
@@ -632,6 +644,7 @@ footer div div p, footer div div h4, footer div {
     margin-bottom: 4px;
 }
 .cv-section-content {
+    background-color: rgba(0, 0, 0, 0);
     font-size: 0.98em;
     color: #374151;
     margin-bottom: 8px;
