@@ -5,6 +5,7 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
+
 }
 
 :root{
@@ -13,7 +14,7 @@ body {
     --tertiary-color: #adcadd;
     --quaternary-color: #07951f;
     --font-family: 'Roboto Condensed', sans-serif;
-    --font-size: 16px;
+    --font-size: 1.5rem;
     --background-color: #fff;
     --text-color: #333;
 }
@@ -300,12 +301,14 @@ button {
 }
 
 button:hover {
-    transform: scale(1.05);
+    text-decoration: underline;
+    background-color: var(--secondary-color);
 
 }   
 
 button:active {
-    transform: scale(0.9);
+    transform:translate(-2px, -2px);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 }
 
 header, .brand, .menu {
@@ -453,6 +456,22 @@ footer div div p, footer div div h4, footer div {
 }
 
 
+.quant-carrito {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+
 
 .carrito img:hover {
     transform: scale(1.1);
@@ -463,6 +482,35 @@ footer div div p, footer div div h4, footer div {
 .carrito img:active {
     transform: scale(0.9);
 }
+
+
+.texto-imagen div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+     button.add-to-cart {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+    }
+
+    button.add-to-cart:hover {
+        text-decoration: underline;
+        background-color: var(--secondary-color);
+        
+    }
+    
+    button.add-to-cart:active {
+        background-color: var(--primary-color);
+        transform: scale(0.95);
+        transform: translate(-2px, -2px);
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    }
 
 @media (max-width: 768px) and (min-width: 481px) { /* Tablets y móviles grandes */
 
@@ -485,6 +533,7 @@ footer div div p, footer div div h4, footer div {
     }
 
     .titulos>h1, .titulos {
+        margin: 0;
         font-size: xx-large;
     }
     
@@ -504,6 +553,7 @@ footer div div p, footer div div h4, footer div {
         width: 2rem;
         height: 2rem;
     }
+
 
     main {
         margin: 0.5rem;
@@ -791,14 +841,14 @@ main {
     background: var(--secondary-color);
     min-width: 180px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    z-index: 100;
-    padding: 0;
+    
+    padding-left: 1rem;
     margin: 0;
     border-radius: 0 0 8px 8px;
 }
 
 .menu .submenu li {
-    padding: 10px 20px;
+    padding: 10px;
     margin: 0;
     width: 100%;
 }

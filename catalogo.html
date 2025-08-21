@@ -4,7 +4,7 @@
 
 <head>
     <title>Aprendamos Jugando - Productos</title>
-    <script src="script.js"></script>
+    
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="styles.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,12 +37,13 @@
                     <h1>Productos</h1>
                 </div>
                 <div class="opciones-productos">
-                    <section>
+                    <section class="Libros-borrables">
                         <button value="Libros-borrables"><a href="libros-borrables.html">Libros borrables</a></button>
-
-                        <section class="texto-imagen">
+                        
+                        <section class="texto-imagen" >
                             <img class="imagen-descripcion" src="assets/LIBROS_BORRABLES.jpg">
-                            <p>Descubre nuestros libros borrables, diseñados para que los niños aprendan jugando y
+                            <div>
+                                <p>Descubre nuestros libros borrables, diseñados para que los niños aprendan jugando y
                                 practicando
                                 sin miedo a equivocarse. Con actividades divertidas, trazos reutilizables y páginas
                                 llenas
@@ -50,7 +51,10 @@
                                 color, son el recurso perfecto para estimular la creatividad, la escritura y la
                                 motricidad
                                 fina
-                                en casa o en el aula.!</p>
+                                en casa o en el aula!</p>
+                            <button class="add-to-cart" onclick="addItem(0)">Añadir al carrito</button>
+                            </div>
+                            
                         </section>
                     </section>
 
@@ -59,7 +63,8 @@
                         <button value="Libros sensoriales">Libros sensoriales</button>
 
                         <section class="texto-imagen">
-                            <p>Nuestros libros sensoriales (quiet books) están diseñados para abrir un mundo de
+                            <div>
+                                <p>Nuestros libros sensoriales (quiet books) están diseñados para abrir un mundo de
                                 imaginación
                                 y
                                 aprendizaje a través del juego. Cada página está llena de texturas, colores y
@@ -67,8 +72,10 @@
                                 que
                                 estimulan la motricidad fina, la concentración y la creatividad de los más pequeños.
                                 🧠🎨
-                            </p>
-
+                                </p>
+                                
+                                <button class="add-to-cart" onclick="addItem(1)">Añadir al carrito</button>
+                            </div>
                             <img class="imagen-descripcion" src="assets/LIBRO_SENSORIAL.jpg">
                         </section>
                     </section>
@@ -78,11 +85,15 @@
 
                         <section class="texto-imagen">
                             <img class="imagen-descripcion" src="assets/CARATAS.jpg">
+                            <div>
                             <p>Diseñadas para niños desde los 6 meses, estas tarjetas son seguras gracias a sus bordes
                                 redondeados y vienen plastificadas para resistir el uso diario. Son borrables, de doble
                                 cara,
                                 con imágenes reales y renglón tipo ferrocarril para practicar la escritura.
                             </p>
+                            
+                            <button class="add-to-cart" onclick="addItem(2)">Añadir al carrito</button>
+                            </div>
                         </section>
 
                     </section>
@@ -91,6 +102,7 @@
                         <button value="imprimibles">Imprimibles</button>
 
                         <section class="texto-imagen">
+                            <div>
                             <p>Aprender nunca fue tan divertido ✨📚
                                 En Aprendamos Jugando diseñamos material imprimible con una intencionalidad pedagógica
                                 clara,
@@ -101,18 +113,20 @@
                                 en
                                 una experiencia lúdica, significativa y entretenida.
                             </p>
+                            
+                            <button class="add-to-cart" onclick="addItem(3)">Añadir al carrito</button>
+                            </div>
                             <img class="imagen-descripcion" src="assets/logo-removebg-preview.png">
 
                         </section>
 
                     </section>
                 </div>
-            </div>
-
-            
+            </div>          
             <a href="carrito.html" class="carrito">
                  <img src="assets/shopping_cart_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.svg" alt="carrito">        
             </a>
+            <div class="quant-carrito"> <p>0</p></div>
             
 
         </main>
@@ -126,10 +140,6 @@
                     <p>E-mail</p>
                 </div>
                 <div>
-
-                    <h4>Desarrollado por: IngeBits</h4>
-                    <p>Mariana Catalina Sandoval Perez</p>
-                    <p>David Santiago Murcia Barrera</p>
 
                     <a href="devteam.html"><h4>Desarrollado por: IngeBits</h4></a>
                     <p> Software hecho con ❤️</p>
