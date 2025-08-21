@@ -494,13 +494,29 @@ footer div div p, footer div div h4, footer div {
         align-items: center;
         width: 100%;
     }
+
+     .menu .submenu {
+        position: static;
+        box-shadow: none;
+        border-radius: 0;
+        min-width: 0;
+    }
+    .menu .dropdown .submenu {
+    display: none !important;
+    pointer-events: none;
+  }
+  .menu .dropdown > a {
+    pointer-events: auto;
+  }
 }
 
 @media (max-width: 480px){ 
 
+
     html {
         width: 100%;
-        font-size: 14px; 
+        font-size: 14px;
+        min-width: 200px; 
     }
     
     h1, h2, h3 {
@@ -539,6 +555,19 @@ footer div div p, footer div div h4, footer div {
         flex-direction: column;
         align-items: center;
         justify-content: center;
+    }
+     .menu .submenu {
+        position: static;
+        box-shadow: none;
+        border-radius: 0;
+        min-width: 0;
+    }
+    .menu .dropdown .submenu {
+    display: none !important;
+    pointer-events: none;
+    }
+    .menu .dropdown > a {
+    pointer-events: auto;
     }
 
     .brand>div{
@@ -749,22 +778,7 @@ main {
     display: block;
 }
 
-/* Responsive: submenu as block for mobile */
-@media (max-width: 768px) {
-    .menu .submenu {
-        position: static;
-        box-shadow: none;
-        border-radius: 0;
-        min-width: 0;
-    }
-    .menu .dropdown .submenu {
-    display: none !important;
-    pointer-events: none;
-  }
-  .menu .dropdown > a {
-    pointer-events: auto;
-  }
-}
+
 
 
 
