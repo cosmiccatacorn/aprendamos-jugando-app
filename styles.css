@@ -181,7 +181,7 @@ p {
 .opciones-productos {
     display: flex;
     gap: 1rem;
-    background-color: silver;
+    background-color: var(--background-color); ;
     justify-items: center;
     padding: 1rem;
 
@@ -201,19 +201,22 @@ p {
 }
 
 .opciones-productos button {
-    font-family: cursive;
+  
     font-size: 1.2rem;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     width: 100%;
     border: none;
     height: 3rem;
+    gap: 1rem;
 }
 
-.opciones-productos section {
+.opciones-productos section, .opciones-productos>section {
     height: auto;/* AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */
-    background-color: burlywood;
+    background-color: var(--tertiary-color);
     text-align: center;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -226,12 +229,12 @@ p {
 }
 
 .titulos {
-    background-color: silver;
+    color: var(--primary-color);
     text-align: center;
-    font-family: cursive;
     padding: 1rem;
     border-radius: 1rem;
     margin-top: 1rem;
+    font-size: x-large;
 }
 
 .todo {
@@ -292,6 +295,7 @@ header, .brand, .menu {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     width: 100%;
     background-color: var(--secondary-color);
 }
@@ -449,11 +453,11 @@ footer div div p, footer div div h4, footer div {
         width: 100%;
     }
 
-    h1, h2 {
+    h1, h2, h3 {
         font-size: large;
     }
 
-    h3, h4, h5, h6, p {
+    h4, h5, h6, p {
         font-size: medium;
     }
 
@@ -463,8 +467,8 @@ footer div div p, footer div div h4, footer div {
         width: 100%;
     }
 
-    .hero h1{
-        font-size: x-large;
+    .titulos>h1 {
+        font-size: xx-large;
     }
     
     .banner {
@@ -482,7 +486,14 @@ footer div div p, footer div div h4, footer div {
     .carrito img {
         width: 2rem;
         height: 2rem;
-    }   
+    }
+    
+    .informacion {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
 }
 
 @media (max-width: 480px){ 
@@ -492,14 +503,33 @@ footer div div p, footer div div h4, footer div {
         font-size: 14px; 
     }
     
-    h1, h2 {
+    h1, h2, h3 {
         font-size: large;
     }
 
-    h3, h4, h5, h6, p {
+    h4, h5, h6, p {
         font-size: medium;
     }
+    .informacion {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
 
+    .informacion>div>h3 {
+        font-size: large;
+    }
+    .informacion>div>p {
+        font-size: small;
+    }
+
+    .texto-imagen {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
     a {
         font-size: small;
         text-align: center;
@@ -515,7 +545,7 @@ footer div div p, footer div div h4, footer div {
         margin: 0;
     }
 
-    .hero h1 {
+    .titulos>h1 {
         font-size: xx-large;
     }
 
