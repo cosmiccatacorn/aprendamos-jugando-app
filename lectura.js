@@ -5,7 +5,7 @@
   const total = params.get("total");
 
   if (items) {
-    const lista = document.getElementById("lista-carrito");
+    const lista = document.getElementById("product-summary");
     items.split(",").forEach(item => {
       const [nombre, cantidad] = item.split(":");
       const li = document.createElement("li");
