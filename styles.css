@@ -496,6 +496,12 @@ footer div {
     font-size: 0.8rem;
 }
 
+.columnas>div>img {
+    width: 15rem;
+    height: 15rem;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
 
 
 .carrito img:hover {
@@ -541,8 +547,9 @@ footer div {
 @media (max-width: 768px) and (min-width: 481px) {
     /* Tablets y móviles grandes */
 
-    html {
+    html, body{
         width: 100%;
+
     }
 
 
