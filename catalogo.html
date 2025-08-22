@@ -24,7 +24,15 @@
             <nav class="menu">
                 <ul>
                     <li class="item"><a href="index.html">Inicio</a></li>
-                    <li class="item"><a href="catalogo.html">Productos</a></li>
+                    <li class="item dropdown">
+                            <a href="catalogo.html">Productos</a>
+                            <ul class="submenu">
+                                <li><a href="libros-borrables.html">Libros borrables</a></li>
+                                <li><a href="libros-sensoriales.html">Libros sensoriales</a></li>
+                                <li><a href="flashcards.html">Flashcards</a></li>
+                                <li><a href="imprimibles.html">Imprimibles</a></li>
+                            </ul>
+                        </li>
                     <li class="item"><a href="carrito.html">Mi carrito</a></li>
                 </ul>
             </nav>
@@ -52,7 +60,7 @@
                                 motricidad
                                 fina
                                 en casa o en el aula!</p>
-                            <button class="add-to-cart" onclick="addItem(0)">Añadir al carrito</button>
+                            
                             </div>
                             
                         </section>
@@ -60,7 +68,7 @@
 
 
                     <section>
-                        <button value="Libros sensoriales">Libros sensoriales</button>
+                        <button value="Libros sensoriales"><a href="libros-sensoriales.html">Sensoriales</a></button>
 
                         <section class="texto-imagen">
                             <div>
@@ -72,16 +80,19 @@
                                 que
                                 estimulan la motricidad fina, la concentración y la creatividad de los más pequeños.
                                 🧠🎨
+
                                 </p>
                                 
-                                <button class="add-to-cart" onclick="addItem(1)">Añadir al carrito</button>
+                                
                             </div>
-                            <img class="imagen-descripcion" src="assets/LIBRO_SENSORIAL.jpg">
+                            
+
+                            <img class="imagen-descripcion" src="assets/PORTADA4.jpg">
                         </section>
                     </section>
 
                     <section>
-                        <button value="Flashcards">Flashcards</button>
+                        <button value="Flashcards"><a href="flashcards.html">Flashcards</a></button>
 
                         <section class="texto-imagen">
                             <img class="imagen-descripcion" src="assets/CARATAS.jpg">
@@ -92,14 +103,13 @@
                                 con imágenes reales y renglón tipo ferrocarril para practicar la escritura.
                             </p>
                             
-                            <button class="add-to-cart" onclick="addItem(2)">Añadir al carrito</button>
                             </div>
                         </section>
 
                     </section>
 
                     <section>
-                        <button value="imprimibles">Imprimibles</button>
+                        <button value="imprimibles"><a href="imprimibles.html">Imprimibles</a></button>
 
                         <section class="texto-imagen">
                             <div>
@@ -114,7 +124,6 @@
                                 una experiencia lúdica, significativa y entretenida.
                             </p>
                             
-                            <button class="add-to-cart" onclick="addItem(3)">Añadir al carrito</button>
                             </div>
                             <img class="imagen-descripcion" src="assets/logo-removebg-preview.png">
 
@@ -124,7 +133,7 @@
                 </div>
             </div>          
             <a href="carrito.html" class="carrito">
-                 <img src="assets/shopping_cart_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.svg" alt="carrito">        
+                <img src="assets/shopping_cart_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.svg" alt="carrito">        
             </a>
             <div class="quant-carrito"> <p>0</p></div>
             
