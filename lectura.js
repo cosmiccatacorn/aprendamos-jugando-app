@@ -13,5 +13,6 @@
             const [nombre, cantidad] = item.split(':');
             const li = document.createElement('li');
             li.textContent = `${decodeURIComponent(nombre)} x${cantidad}`;
+
             itemsList.appendChild(li);
         });

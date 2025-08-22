@@ -106,6 +106,8 @@ const checkout = () => {
 
     // Redireccionar a la página de confirmación
     window.location.href = `confirmacion.html?${params.toString()}`;
+    window.location.href = `carrito.html?${params.toString()}`;
+
     cleanCarrito();
     actualizarContador();
 };
