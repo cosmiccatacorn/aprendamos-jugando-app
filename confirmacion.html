@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirmación de Pedido - Aprendamos Jugando</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="assets/logo-removebg-preview.png">
+</head>
+<body>
+    <header>
+    <div class="brand">
+        <div class="logo">
+            <img class="logo" src="assets/logo-removebg-preview.png" alt="Logo">
+        </div>
+        <div class="title">
+            <h1>Aprendamos jugando</h1>
+        </div>
+    </div>
+    <nav class="menu">
+        <ul>
+            <li class="item"><a href="index.html">Inicio</a></li>
+            <li class="item"><a href="catalogo.html">Productos</a></li>
+        </ul>
+    </nav>
+</header>
+    <main>
+        <h1>¡Gracias por tu compra! 🎉</h1>
+        <div class="confirmacion">
+            <h2>Resumen del pedido</h2>
+            <p>Número de pedido: <span id="pedido"></span></p>
+            <p>Fecha: <span id="fecha"></span></p>
+            <div class="items-list">
+                <h3>Productos:</h3>
+                <ul id="items"></ul>
+            </div>
+            <p class="total">Total: $<span id="total"></span></p>
+        </div>
+    </main>
+    <script>
+        // Leer y mostrar parámetros
+        const params = new URLSearchParams(window.location.search);
+        
+        document.getElementById('pedido').textContent = params.get('pedido');
+        document.getElementById('fecha').textContent = new Date(params.get('fecha')).toLocaleString();
+        document.getElementById('total').textContent = params.get('total');
+
+        // Mostrar items
+        const itemsList = document.getElementById('items');
+        const items = params.get('items').split(',');
+        items.forEach(item => {
+            const [nombre, cantidad] = item.split(':');
+            const li = document.createElement('li');
+            li.textContent = `${decodeURIComponent(nombre)} x${cantidad}`;
+            itemsList.appendChild(li);
+        });
+    </script>
+</body>
+</html>

@@ -544,6 +544,64 @@ footer div {
     }
 
 
+/* Estilos para la página de confirmación */
+.confirmacion {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+    padding: 2rem;
+    margin: 2rem;
+    max-width: 600px;
+    width: 90%;
+}
+
+.confirmacion h1 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.confirmacion h2 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.confirmacion p {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.items-list {
+    margin: 1.5rem 0;
+}
+
+.items-list h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.items-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.items-list li {
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    color: var(--text-color);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.total {
+    font-size: 1.3rem !important;
+    font-weight: bold;
+    color: var(--primary-color) !important;
+    text-align: right;
+    border-top: 2px solid var(--primary-color) !important;
+    margin-top: 1rem !important;
+}
+
 @media (max-width: 768px) and (min-width: 481px) {
     /* Tablets y móviles grandes */
 
