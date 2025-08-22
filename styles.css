@@ -476,6 +476,7 @@ footer div {
     /* Separación desde abajo */
     right: 20px;
     text-decoration: none;
+    z-index: 1000;
 
 
 }
