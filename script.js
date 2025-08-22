@@ -67,10 +67,15 @@ const removeItem = (id) => {
     }
 };
 
-// 🔹 Checkout con query params
-// ...existing code...
+const cleanCarrito = () => {
+    carrito = [];
+    guardarCarrito();
+    actualizarDisplay();
+    actualizarContador();
+};
 
 const checkout = () => {
+    
     if (carrito.length === 0) {
         alert('El carrito está vacío');
         return;
@@ -101,15 +106,12 @@ const checkout = () => {
 
     // Redireccionar a la página de confirmación
     window.location.href = `confirmacion.html?${params.toString()}`;
-};
-
-
-const cleanCarrito = () => {
-    carrito = [];
-    guardarCarrito();
-    actualizarDisplay();
+    cleanCarrito();
     actualizarContador();
 };
+
+
+
 
 // 🔹 Render del carrito en pantalla
 const actualizarDisplay = () => {
