@@ -74,7 +74,6 @@ const checkout = () => {
         return;
     }
 
-    // Construir query params con productos y total
     const items = carrito.map(p => `${encodeURIComponent(p.name)}:${1}`).join(",");
     const total = carrito.reduce((sum, prod) => sum + prod.price, 0);
 
@@ -82,9 +81,11 @@ const checkout = () => {
     params.set("items", items);
     params.set("total", total);
 
-    // Redirigir a carrito.html con los datos
-    window.location.href = "carrito.html?" + params.toString();
+    const url = "carrito.html?" + params.toString();
+    console.log("Checkout redirige a:", url); // 👀 DEBUG
+    window.location.href = url;
 };
+
 
 
 const cleanCarrito = () => {

@@ -1,4 +1,6 @@
   const params = new URLSearchParams(window.location.search);
+  console.log("Query params recibidos:", params.toString()); // 👀 DEBUG
+
   const items = params.get("items");
   const total = params.get("total");
 
