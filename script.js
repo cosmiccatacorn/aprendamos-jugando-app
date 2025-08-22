@@ -105,8 +105,8 @@ const checkout = () => {
     params.set('pedido', Math.random().toString(36).substring(2, 8));
 
     // Redireccionar a la página de confirmación
-    //window.location.href = `confirmacion.html?${params.toString()}`;
-    window.location.href = `carrito.html?${params.toString()}`;
+    window.location.href = `confirmacion.html?${params.toString()}`;
+    //window.location.href = `carrito.html?${params.toString()}`;
 
     cleanCarrito();
     actualizarContador();
