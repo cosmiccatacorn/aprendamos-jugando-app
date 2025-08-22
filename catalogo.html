@@ -4,7 +4,7 @@
 
 <head>
     <title>Aprendamos Jugando - Productos</title>
-    <script src="script.js"></script>
+    
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="styles.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +24,15 @@
             <nav class="menu">
                 <ul>
                     <li class="item"><a href="index.html">Inicio</a></li>
-                    <li class="item"><a href="catalogo.html">Productos</a></li>
+                    <li class="item dropdown">
+                            <a href="catalogo.html">Productos</a>
+                            <ul class="submenu">
+                                <li><a href="libros-borrables.html">Libros borrables</a></li>
+                                <li><a href="libros-sensoriales.html">Libros sensoriales</a></li>
+                                <li><a href="flashcards.html">Flashcards</a></li>
+                                <li><a href="imprimibles.html">Imprimibles</a></li>
+                            </ul>
+                        </li>
                     <li class="item"><a href="carrito.html">Mi carrito</a></li>
                 </ul>
             </nav>
@@ -37,12 +45,13 @@
                     <h1>Productos</h1>
                 </div>
                 <div class="opciones-productos">
-                    <section>
+                    <section class="Libros-borrables">
                         <button value="Libros-borrables"><a href="libros-borrables.html">Libros borrables</a></button>
-
-                        <section class="texto-imagen">
-                            <img class="imagen-descripcion" src="/assets/LIBROS_BORRABLES.jpg">
-                            <p>Descubre nuestros libros borrables, diseñados para que los niños aprendan jugando y
+                        
+                        <section class="texto-imagen" >
+                            <img class="imagen-descripcion" src="assets/LIBROS_BORRABLES.jpg">
+                            <div>
+                                <p>Descubre nuestros libros borrables, diseñados para que los niños aprendan jugando y
                                 practicando
                                 sin miedo a equivocarse. Con actividades divertidas, trazos reutilizables y páginas
                                 llenas
@@ -50,16 +59,20 @@
                                 color, son el recurso perfecto para estimular la creatividad, la escritura y la
                                 motricidad
                                 fina
-                                en casa o en el aula.!</p>
+                                en casa o en el aula!</p>
+                            
+                            </div>
+                            
                         </section>
                     </section>
 
 
                     <section>
-                        <button value="Libros sensoriales">Libros sensoriales</button>
+                        <button value="Libros sensoriales"><a href="libros-sensoriales.html">Sensoriales</a></button>
 
                         <section class="texto-imagen">
-                            <p>Nuestros libros sensoriales (quiet books) están diseñados para abrir un mundo de
+                            <div>
+                                <p>Nuestros libros sensoriales (quiet books) están diseñados para abrir un mundo de
                                 imaginación
                                 y
                                 aprendizaje a través del juego. Cada página está llena de texturas, colores y
@@ -67,30 +80,39 @@
                                 que
                                 estimulan la motricidad fina, la concentración y la creatividad de los más pequeños.
                                 🧠🎨
-                            </p>
 
-                            <img class="imagen-descripcion" src="/assets/LIBRO_SENSORIAL.jpg">
+                                </p>
+                                
+                                
+                            </div>
+                            
+
+                            <img class="imagen-descripcion" src="assets/PORTADA4.jpg">
                         </section>
                     </section>
 
                     <section>
-                        <button value="Flashcards">Flashcards</button>
+                        <button value="Flashcards"><a href="flashcards.html">Flashcards</a></button>
 
                         <section class="texto-imagen">
-                            <img class="imagen-descripcion" src="/assets/CARATAS.jpg">
+                            <img class="imagen-descripcion" src="assets/CARATAS.jpg">
+                            <div>
                             <p>Diseñadas para niños desde los 6 meses, estas tarjetas son seguras gracias a sus bordes
                                 redondeados y vienen plastificadas para resistir el uso diario. Son borrables, de doble
                                 cara,
                                 con imágenes reales y renglón tipo ferrocarril para practicar la escritura.
                             </p>
+                            
+                            </div>
                         </section>
 
                     </section>
 
                     <section>
-                        <button value="imprimibles">Imprimibles</button>
+                        <button value="imprimibles"><a href="imprimibles.html">Imprimibles</a></button>
 
                         <section class="texto-imagen">
+                            <div>
                             <p>Aprender nunca fue tan divertido ✨📚
                                 En Aprendamos Jugando diseñamos material imprimible con una intencionalidad pedagógica
                                 clara,
@@ -101,28 +123,19 @@
                                 en
                                 una experiencia lúdica, significativa y entretenida.
                             </p>
-                            <img class="imagen-descripcion" src="/assets/logo-removebg-preview.png">
+                            
+                            </div>
+                            <img class="imagen-descripcion" src="assets/logo-removebg-preview.png">
 
                         </section>
 
                     </section>
                 </div>
-            </div>
-
-            <h1>Productos</h1>
-            <div class="categ-display">
-                <h3>Categorías</h3>
-                <select>
-                    <option value="Grafomotricidad">Grafomotricidad</option>
-                    <option value="Libros sensoriales">Libros sensoriales</option>
-                    <option value="Flashcards">Flashcards</option>
-                    <option value="imprimibles">Imprimibles</option>
-                    <option value="otras">otras</option>
-                </select>
-            </div>
+            </div>          
             <a href="carrito.html" class="carrito">
                 <img src="assets/shopping_cart_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.svg" alt="carrito">        
             </a>
+            <div class="quant-carrito"> <p>0</p></div>
             
 
         </main>
@@ -136,10 +149,6 @@
                     <p>E-mail</p>
                 </div>
                 <div>
-
-                    <h4>Desarrollado por: IngeBits</h4>
-                    <p>Mariana Catalina Sandoval Perez</p>
-                    <p>David Santiago Murcia Barrera</p>
 
                     <a href="devteam.html"><h4>Desarrollado por: IngeBits</h4></a>
                     <p> Software hecho con ❤️</p>
