@@ -435,7 +435,7 @@ a:hover {
 footer div div p,
 footer div div h4,
 footer div {
-    background-color: var(--secondary-color);
+   background-color: var(--secondary-color);
     color: var(--background-color);
     text-align: center;
 }
@@ -830,7 +830,7 @@ footer div {
     background-attachment: fixed;
     Nos encantó pero no pega con el tema
     */
-    background-color: var(--background-color);
+    background-color: var(--secondary-color) 0.3;
 }
 
 .cv-container {
@@ -932,20 +932,31 @@ footer div {
 
 
 .ingebits,
-.ingebits h4 {
+.ingebits h4,
+.ingebits h2 {
+    display: flex;
+    flex-direction: column;
     text-align: center;
     justify-content: center;
-    font-size: 1.5em;
-    color: var(--secondary-color);
-    background-color: rgba(255, 255, 255, 0);
-    margin-top: 20px;
-    margin-bottom: 20px;
+    font-size: 1em;
+    color: var(--background-color);
+    background-color: var(--secondary-color);
+    margin: 0;
+    padding: 1rem;
 }
 
-.ingebits h4 {
-    background-color: rgba(255, 255, 255, 0.5);
+
+
+.ingebits h4, .ingebits h2 {
     padding: 20px;
     border-radius: 10px;
+    
+}
+
+.ingebits h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 1rem;
 }
 
 .volver {
@@ -953,11 +964,20 @@ footer div {
     width: 100%;
     text-align: center;
     bottom: 2rem;
-    background-color: rgba(255, 255, 255, 0.5);
-    color: var(--primary-color);
+    background-color: var(--primary-color);
+    color: var(--background-color);
     border-radius: 10px;
     width: 200px;
     margin: 1rem auto;
+}
+
+.adj-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
 }
 
 .devteam {
@@ -1007,6 +1027,7 @@ main {
     color: var(--background-color);
     font-size: 1em;
     display: block;
+    margin: 0.75rem;
     width: 100%;
 }
 
