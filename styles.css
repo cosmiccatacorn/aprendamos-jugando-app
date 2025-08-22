@@ -229,9 +229,13 @@ p {
 
 .opciones-productos section {
     height: auto;
-    /* AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */
-    background-color: burlywood;
+    background-color: rgb(114, 179, 216);
     text-align: center;
+    border-radius: 1rem;
+}
+
+.opciones-productos a{
+    color: black;
 }
 
 
@@ -824,7 +828,7 @@ main {
     margin: 16px;
 }
 
-.main-borrables {
+.main-flashcards {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(4, 1fr);
@@ -837,24 +841,63 @@ main {
     border-radius: 1rem;
 }
 
-.cartas {
-    background-color: #3498db;
-    color: white;
-    text-align: center;
-    font-size: 1.5rem;;
 
+.main-flashcards p {
+    padding: 0;
+    text-align: left;
 }
 
-.img{
+.img {
     width: 100%;
     display: flex;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
 }
 
-.nombre-cartas{
-    /* precios */
-    height: 100%;
-    margin-top: 0;
+.nombre-cartas {
 
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 1rem;
+
+    background-color: #3498db;
+    font-family: cursive;
+
+}
+
+.main-sensoriales {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1rem;
+    /* Opcional: para añadir espacio entre las celdas */
+    width: 90%;
+    margin: auto;
+    background-color: silver;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.main-sensoriales p {
+    padding: 0;
+    text-align: left;
+}
+
+
+.main-borrables {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(1, 1fr);
+    gap: 1rem;
+    /* Opcional: para añadir espacio entre las celdas */
+    width: 90%;
+    margin: auto;
+    background-color: silver;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.main-borrables p {
+    padding: 0;
+    text-align: left;
 }
