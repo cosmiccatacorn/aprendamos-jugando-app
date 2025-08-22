@@ -67,32 +67,51 @@ const removeItem = (id) => {
     }
 };
 
-// 🔹 Checkout con query params
-const checkout = () => {
-    if (carrito.length === 0) {
-        alert("El carrito está vacío.");
-        return;
-    }
-
-    // Construir query params con productos y total
-    const items = carrito.map(p => `${encodeURIComponent(p.name)}:${1}`).join(",");
-    const total = carrito.reduce((sum, prod) => sum + prod.price, 0);
-
-    const params = new URLSearchParams();
-    params.set("items", items);
-    params.set("total", total);
-
-    // Redirigir a carrito.html con los datos
-    window.location.href = "carrito.html?" + params.toString();
-};
-
-
 const cleanCarrito = () => {
     carrito = [];
     guardarCarrito();
     actualizarDisplay();
     actualizarContador();
 };
+
+const checkout = () => {
+    
+    if (carrito.length === 0) {
+        alert('El carrito está vacío');
+        return;
+    }
+
+    // Crear objeto para contar cantidad de cada producto
+    const itemCount = carrito.reduce((acc, item) => {
+        acc[item.id] = (acc[item.id] || 0) + 1;
+        return acc;
+    }, {});
+
+    // Crear string de items con formato "nombre:cantidad,nombre2:cantidad2"
+    const items = Object.entries(itemCount)
+        .map(([id, cantidad]) => {
+            const producto = productos.find(p => p.id == id);
+            return `${encodeURIComponent(producto.name)}:${cantidad}`;
+        })
+        .join(',');
+
+    const total = carrito.reduce((sum, prod) => sum + prod.price, 0);
+
+    // Construir URL con parámetros
+    const params = new URLSearchParams();
+    params.set('items', items);
+    params.set('total', total);
+    params.set('fecha', new Date().toISOString());
+    params.set('pedido', Math.random().toString(36).substring(2, 8));
+
+    // Redireccionar a la página de confirmación
+    window.location.href = `confirmacion.html?${params.toString()}`;
+    cleanCarrito();
+    actualizarContador();
+};
+
+
+
 
 // 🔹 Render del carrito en pantalla
 const actualizarDisplay = () => {
