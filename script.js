@@ -69,7 +69,6 @@ const removeItem = (id) => {
 };
 
 const checkout = () => {
-    
     carrito = [];
     guardarCarrito();
     actualizarDisplay();
