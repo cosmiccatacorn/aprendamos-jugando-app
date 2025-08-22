@@ -5,6 +5,13 @@
 <head>
     <title>Libros borrables</title>
     <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="script.js" defer></script>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="assets/logo-removebg-preview.png">
 </head>
 
 <body>
@@ -21,14 +28,15 @@
             <ul>
                 <li class="item"><a href="index.html">Inicio</a></li>
                 <li class="item dropdown">
-                    <a href="catalogo.html">Productos</a>
-                    <ul class="submenu">
-                        <li><a href="catalogo.html?cat=Grafomotricidad">Grafomotricidad</a></li>
-                        <li><a href="catalogo.html?cat=Libros sensoriales">Libros sensoriales</a></li>
-                        <li><a href="catalogo.html?cat=Flashcards">Flashcards</a></li>
-                        <li><a href="catalogo.html?cat=Imprimibles">Imprimibles</a></li>
-                        <li><a href="catalogo.html?cat=Otras">Otras</a></li>
-                    </ul>
+                    
+                            <a href="catalogo.html">Productos</a>
+                            <ul class="submenu">
+                                <li><a href="libros-borrables.html">Libros borrables</a></li>
+                                <li><a href="libros-sensoriales.html">Libros sensoriales</a></li>
+                                <li><a href="flashcards.html">Flashcards</a></li>
+                                <li><a href="imprimibles.html">Imprimibles</a></li>
+                            </ul>
+                        
                 </li>
                 <li class="item"><a href="carrito.html">Mi carrito</a></li>
             </ul>
@@ -39,24 +47,32 @@
         <div class="main-borrables">
             <section>
                 <section>
-                    <img class="img" src="/assets/BORRABLE_VERDE.jpg">
+                    <img class="img" src="assets/BORRABLE_VERDE.jpg">
                 </section>
                 <div class="nombre-cartas">
                     <p>GRAFOMOTRICIDAD</p>
                     <p>PRECIOS</p>
+                    <button class="add-to-cart" onclick="addItem(0)">Añadir al carrito</button>
                 </div>
+                
             </section>
 
             <section>
                 <section>
-                    <img class="img" src="/assets/BORRABLE_AZUL.jpg">
+                    <img class="img" src="assets/BORRABLE_AZUL.jpg">
                 </section>
                 <div class="nombre-cartas">
                     <p>DESCUBRO Y PRACTICO EL ABECEDARIO</p>
                     <p>PRECIOS</p>
+                    <button class="add-to-cart" onclick="addItem(0)">Añadir al carrito</button>
                 </div>
+
             </section>
         </div>
+        <a href="carrito.html" class="carrito">
+                <img src="assets/shopping_cart_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.svg" alt="carrito">        
+            </a>
+            <div class="quant-carrito"> <p>0</p></div>
     </main>
 
     <footer>
