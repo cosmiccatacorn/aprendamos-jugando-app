@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Confirmación de Pedido - Aprendamos Jugando</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <script src="lectura.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/logo-removebg-preview.png">
+    <script src="lectura.js" defer></script>
 </head>
-
 <body>
     <header>
         <div class="brand">
@@ -34,15 +31,16 @@
         <h1>¡Gracias por tu compra! 🎉</h1>
         <div class="confirmacion">
             <h2>Resumen del pedido</h2>
-            <p>Número de pedido: <span id="pedido"></span></p>
+            <p>Número de pedido: <strong id="pedido"></strong></p>
             <p>Fecha: <span id="fecha"></span></p>
             <div class="items-list">
                 <h3>Productos:</h3>
                 <ul id="items"></ul>
             </div>
-            <p class="total">Total: $<span id="total"></span></p>
+            <p class="total">Total: $<strong id="total"></strong></p>
         </div>
     </main>
-</body>
 
+    
+</body>
 </html>

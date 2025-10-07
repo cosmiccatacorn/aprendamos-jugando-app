@@ -198,27 +198,6 @@ p {
 
 
 
-.opciones-productos {
-    display: flex;
-    gap: 1rem;
-    background-color: var(--background-color); ;
-    justify-items: center;
-    padding: 1rem;
-
-    border-radius: 1rem;
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    /* Crea 2 columnas del mismo tamaño */
-    grid-template-rows: repeat(1, 1fr);
-    /* Crea 2 filas del mismo tamaño */
-    gap: 1.5rem;
-
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-
-
-
-}
 
 .opciones-productos button {
   
@@ -586,6 +565,8 @@ footer div {
 
 .items-list ul {
     list-style: none;
+    display: flex;
+    flex-direction: column;
     padding: 0;
 }
 
@@ -594,6 +575,7 @@ footer div {
     font-size: 1rem;
     color: var(--text-color);
     border-bottom: 1px solid rgba(0,0,0,0.1);
+    display: block; /* <-- AÑADE ESTA LÍNEA */
 }
 
 .total {
@@ -1149,4 +1131,147 @@ main {
     padding: 0;
     text-align: left;
 }
+
+.opciones-productos {
+    display: grid;
+    /* Crea una grilla responsive: tantas columnas de 300px como quepan */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0;
+    background-color: transparent; /* El fondo lo da cada tarjeta */
+}
+
+/* La tarjeta individual del producto */
+.producto-card {
+    background-color: var(--background-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Asegura que la imagen no se salga de los bordes redondeados */
+    display: flex;
+    flex-direction: column; /* Clave para alinear el botón abajo */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.producto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Imagen del producto */
+.producto-card .imagen-descripcion {
+    width: 100%;
+    height: 220px; /* Altura fija para todas las imágenes */
+    object-fit: cover; /* Evita que la imagen se deforme */
+    border-radius: 0; /* La imagen no necesita su propio borde */
+}
+
+/* Contenedor para el texto (nombre, desc, precio) */
+.producto-info {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Clave: hace que este div crezca y empuje el botón hacia abajo */
+}
+
+/* Nombre del producto */
+.producto-card h3 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin: 0 0 0.5rem 0;
+    text-align: left !important;
+}
+
+/* Descripción del producto */
+.producto-card p {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    text-align: left;
+    margin: 0 0 1rem 0;
+    padding: 0;
+    flex-grow: 1; /* Permite que la descripción ocupe el espacio disponible */
+}
+
+/* Precio del producto */
+.producto-card .precio-tag {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--secondary-color);
+    text-align: right;
+    margin-top: auto; /* Empuja el precio al final del div de info */
+}
+
+/* Botón de "Añadir al carrito" */
+.add-btn {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border: none;
+    padding: 0.8rem;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0; /* El botón no necesita bordes redondeados */
+    transition: background-color 0.2s ease;
+}
+
+.add-btn:hover {
+    background-color: var(--quaternary-color);
+    text-decoration: none;
+    transform: none;
+}
+
+/* === Loader Styles === */
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 400px;
+    /* Esta línea es la clave para centrarlo en la grilla */
+    grid-column: 1 / -1; 
+}
+
+/* From Uiverse.io by barisdogansutcu */ 
+.loader-container svg {
+    width: 3.25em;
+    transform-origin: center;
+    animation: rotate4 2s linear infinite;
+}
+
+.loader-container circle {
+    fill: none;
+    stroke: var(--primary-color); /* Usando tu color primario */
+    stroke-width: 2;
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    animation: dash4 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate4 {
+ 100% {
+  transform: rotate(360deg);
+ }
+}
+
+@keyframes dash4 {
+ 0% {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+ }
+
+ 50% {
+  stroke-dasharray: 90, 200;
+  stroke-dashoffset: -35px;
+ }
+
+ 100% {
+  stroke-dashoffset: -125px;
+ }
+}
+
+
 
