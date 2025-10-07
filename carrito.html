@@ -1,81 +1,72 @@
 <!DOCTYPE html>
-
-<html>
-    <head>
-        <title>Aprendamos Jugando</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="script.js" defer></script>
-        <script src="lectura.js"></script>
-        <link rel="stylesheet" href="styles.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-        <link rel="icon" type="image/png" href="assets/logo-removebg-preview.png">
-    </head>
-    <body>
-        <header>
-            <div class="brand">
-                <div class="logo"><img class="logo" src="assets/logo-removebg-preview.png">
-                </div>
-                <div class="title"><h1> Aprendamos jugando </h1></div>
-                
-
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Aprendamos Jugando - Carrito</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js" defer></script>
+    <script src="lectura.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/logo-removebg-preview.png">
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <div class="logo">
+                <img class="logo" src="assets/logo-removebg-preview.png" alt="Logo">
             </div>
-                <nav class="menu">
-                    <ul>
-                        <li class="item"><a href="index.html">Inicio</a></li>
-                        <li class="item dropdown">
-                            <a href="catalogo.html">Productos</a>
-                            <ul class="submenu">
-                                <li><a href="libros-borrables.html">Libros borrables</a></li>
-                                <li><a href="libros-sensoriales.html">Libros sensoriales</a></li>
-                                <li><a href="flashcards.html">Flashcards</a></li>
-                                <li><a href="imprimibles.html">Imprimibles</a></li>
-                            </ul>
-                        </li>
-                        <li class="item"><a href="carrito.html">Mi carrito</a></li>
+            <div class="title"><h1>Aprendamos jugando</h1></div>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li class="item"><a href="index.html">Inicio</a></li>
+                <li class="item dropdown">
+                    <a href="catalogo.html">Productos</a>
+                    <ul class="submenu">
+                        <li><a href="libros-borrables.html">Libros borrables</a></li>
+                        <li><a href="libros-sensoriales.html">Libros sensoriales</a></li>
+                        <li><a href="flashcards.html">Flashcards</a></li>
+                        <li><a href="imprimibles.html">Imprimibles</a></li>
                     </ul>
-                </nav>
-        </header>
-        <main>
-            <h1 class="titulos">Mi carrito 🛒</h1>
-            <div class="contenedor">
-                <div class="product-summary">
-                    
-                </div>
-                <div>
-                    <p class="precio">
-                        Total a pagar:
+                </li>
+                <li class="item"><a href="carrito.html">Mi carrito</a></li>
+            </ul>
+        </nav>
+    </header>
 
+    <main>
+        <h1 class="titulos">Mi carrito 🛒</h1>
+        <div class="contenedor">
+            <!-- El resumen del carrito se generará aquí por JS -->
+            <div class="product-summary"></div>
+            <div class="precio"></div>
+        </div>
 
-                    </p>
-                </div>
+        <!-- Formulario para datos del cliente -->
+        <div class="checkout-form">
+            <h2>Completa tus datos para finalizar el pedido</h2>
+            <input type="text" id="nombre_cliente" placeholder="Nombre completo" required>
+            <input type="tel" id="telefono_cliente" placeholder="Teléfono" required>
+            <input type="text" id="direccion_cliente" placeholder="Dirección de envío" required>
+            <button id="checkout-btn">Realizar Pedido</button>
+        </div>
+    </main>
+
+    <footer>
+        <div class="columnas">
+            <div class="contacto">
+                <a target="_blank" href="https://www.instagram.com/aprendamosjugandooficial"><p>Instagram</p></a>
+                <a target="_blank" href="wa.me/message/OIBRGLZPT4XOA1"><p>WhatsApp</p></a>
+                <a target="_blank" href="https://www.facebook.com/share/14MqexyFMUs/"><p>Facebook</p></a>
             </div>
-            <nav>
-                <button onclick="checkout()"> Confirma tu compra</button>
-                <button onclick="cleanCarrito()"> Limpiar Carrito</button>
-            </nav>
-            
-
-        </main>
-        <footer>
-            <div class="columnas">
-                <div class="contacto">
-                    <a target="_blank" href="https://www.instagram.com/aprendamosjugandooficial"><p>Instagram</p></a>
-                    
-                    <a target="_blank" href="wa.me/message/OIBRGLZPT4XOA1"><p>WhatsApp</p></a>
-                    <a target="_blank" href="https://www.facebook.com/share/14MqexyFMUs/"><p>Facebook</p></a>
-                    
-                </div>
-                <div>
-
-
-                  <a href="devteam.html"><h4>Desarrollado por: IngeBits</h4></a>
-                    <p> Software hecho con ❤️</p>
-                </div>
+            <div>
+                <a href="devteam.html"><h4>Desarrollado por: IngeBits</h4></a>
+                <p>Software hecho con ❤️</p>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
 </body>
-
 </html>

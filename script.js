@@ -1,124 +1,81 @@
-// Secciones: 
-// Información de los productos
-// Cada producto tiene un id, un nombre, categoría y precio
+const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbysTDJglp8qscqpJ2yshvuPbnsGcF5mrrIaPU6XvdLJxJnd2_P6XDCOyrRI5hU30Sjn/exec"; // ej: "https://script.google.com/macros/s/XXX/exec"
+
+// === Clase Producto
 class Producto {
-    constructor(id, name, price, descripcion, cat){
-        this.id = id;
+    constructor(id, name, price, descripcion = "", cat = "", imagen = "") {
+        this.id = Number(id);
         this.name = name;
-        this.price = price;
+        this.price = Number(price) || 0;
         this.cat = cat;
         this.descripcion = descripcion;
+        this.imagen = imagen;
     }
 }
 
-const productos = [
-    new Producto(0, "Libro-borrable", 90000, "...", "Libros"),
-    new Producto(1, "Libro-sensorial", 150000, "", "Libros"),
-    new Producto(2, "Flashcards", 60000, "...", "Flashcards"),
-    new Producto(3, "Imprimible", 0, "...", "Otros" )
-];
 
-// DOM
-// ctes
+
+// variables
+let productos = []; // se llenará desde fetch
 const contenedorCarrito = document.querySelector(".product-summary");
 const cantidadCarrito = document.querySelector(".quant-carrito p");
 const costo = document.querySelector(".precio");
 
-// variables
 // Cargar carrito desde localStorage al iniciar
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-// Guardar carrito en localStorage
 const guardarCarrito = () => {
     localStorage.setItem('carrito', JSON.stringify(carrito));
 };
 
-// 🔹 Contador de productos en carrito
-const actualizarContador = () => {
-    const cantidad = carrito.length;
-    if(cantidadCarrito){
-        if(cantidad > 9) {
-            cantidadCarrito.textContent = "9+";
-        } else {
-            cantidadCarrito.textContent = cantidad;
-        }
-    }
-};
-
-// 🔹 Agregar producto
+// Agregar producto (con agrupación)
 const addItem = (id) => {
     const item = productos.find(p => p.id == id);
-    if (item) {
-        carrito.push(item);
-        guardarCarrito();
-        actualizarDisplay();
-        actualizarContador();
-    }
-};
+    if (!item) return;
 
-// 🔹 Eliminar producto
-const removeItem = (id) => {
-    const idx = carrito.findIndex(p => p.id == id);
-    if (idx !== -1) {
-        carrito.splice(idx, 1);
-        guardarCarrito();
-        actualizarDisplay();
-        actualizarContador();
-    }
-};
+    const existingItem = carrito.find(p => p.id == id);
 
-const cleanCarrito = () => {
-    carrito = [];
+    if (existingItem) {
+        existingItem.cantidad++;
+    } else {
+        carrito.push({ ...item, cantidad: 1 });
+    }
+
     guardarCarrito();
     actualizarDisplay();
     actualizarContador();
 };
 
-const checkout = () => {
-    
-    if (carrito.length === 0) {
-        alert('El carrito está vacío');
-        return;
+// quitar producto, uno por uno si hay varios del mismo
+const removeItem = (id) => {
+    const existingItem = carrito.find(p => p.id == id);
+    if (!existingItem) return;
+
+    existingItem.cantidad--;
+
+    if (existingItem.cantidad <= 0) {
+        carrito = carrito.filter(p => p.id != id);
     }
 
-    // Crear objeto para contar cantidad de cada producto
-    const itemCount = carrito.reduce((acc, item) => {
-        acc[item.id] = (acc[item.id] || 0) + 1;
-        return acc;
-    }, {});
-
-    // Crear string de items con formato "nombre:cantidad,nombre2:cantidad2"
-    const items = Object.entries(itemCount)
-        .map(([id, cantidad]) => {
-            const producto = productos.find(p => p.id == id);
-            return `${encodeURIComponent(producto.name)}:${cantidad}`;
-        })
-        .join(',');
-
-    const total = carrito.reduce((sum, prod) => sum + prod.price, 0);
-
-    // Construir URL con parámetros
-    const params = new URLSearchParams();
-    params.set('items', items);
-    params.set('total', total);
-    params.set('fecha', new Date().toISOString());
-    params.set('pedido', Math.random().toString(36).substring(2, 8));
-
-    // Redireccionar a la página de confirmación
-    window.location.href = `confirmacion.html?${params.toString()}`;
-    cleanCarrito();
+    guardarCarrito();
+    actualizarDisplay();
     actualizarContador();
 };
 
+// Muestra el número chiquito junto al carrito de compras :D
+const actualizarContador = () => {
+    const cantidad = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+    if (cantidadCarrito) {
+        cantidadCarrito.textContent = cantidad > 9 ? "9+" : cantidad;
+    }
+};
 
 
-
-// 🔹 Render del carrito en pantalla
+// renderizar carrito 
 const actualizarDisplay = () => {
     if (!contenedorCarrito || !costo) return;
 
-    const total = carrito.reduce((sum, prod) => sum + prod.price, 0);
-    costo.textContent = `Total a pagar: $${total}`;
+    const total = carrito.reduce((sum, prod) => sum + (prod.price * prod.cantidad), 0);
+    costo.textContent = `Total a pagar: $${total.toLocaleString('es-CO')}`;
 
     if (carrito.length === 0) {
         contenedorCarrito.innerHTML = "<p>El carrito está vacío.</p>";
@@ -126,20 +83,188 @@ const actualizarDisplay = () => {
     }
 
     contenedorCarrito.innerHTML = carrito.map((item) => `
-        <div>
-            <span>${item.name} - $${item.price}</span>
-            <button onclick="removeItem(${item.id})">Quitar</button>
+        <div class="cart-item" data-id="${item.id}">
+            <span>${item.name} (x${item.cantidad}) - $${(item.price * item.cantidad).toLocaleString('es-CO')}</span>
+            <button class="remove-btn" data-id="${item.id}">Quitar</button>
         </div>
     `).join('');
 };
 
-// 🔹 Inicializar al cargar
-actualizarDisplay();
-actualizarContador();
+// === Mapear posibles claves del JSON remoto a Producto ===
+//ni idea, lo hizo chat :(
+function mapRemoteProduct(raw) {
+    // detecta campos comunes y los normaliza
+    const id = raw.id ?? raw.ID ?? raw.Id ?? raw.index ?? raw.row ?? raw.numero ?? raw.productId ?? raw.product_id;
+    const name = raw.name ?? raw.nombre ?? raw.title ?? raw.producto ?? raw.nombre_producto;
+    const price = raw.price ?? raw.precio ?? raw.Price ?? raw.Precio;
+    const descripcion = raw.descripcion ?? raw.description ?? raw.desc ?? raw.info ?? "";
+    const cat = raw.cat ?? raw.category ?? raw.categoria ?? "";
+    const imagen = raw.imagen ?? raw.image ?? raw.img ?? raw.foto ?? "";
 
-// Query params mandar la info del carrito al server
+    return new Producto(id, name, price, descripcion, cat, imagen);
+}
+
+//ya ez
+async function cargarProductos() {
+    const cont = document.querySelector(".opciones-productos");
+    if (!cont) return; 
+
+    // 1. Mostrar el loader para q se vea bonitoo
+    cont.innerHTML = `
+        <div class="loader-container">
+            <svg viewBox="25 25 50 50">
+                <circle r="20" cy="50" cx="50"></circle>
+            </svg>
+        </div>
+    `;
+
+    if (!ENDPOINT_URL) {
+        console.warn("ENDPOINT_URL no configurado :(");
+        return;
+    }
+
+    try {
+        const resp = await fetch(ENDPOINT_URL);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const apiResponse = await resp.json();
+
+        // la api retorna { data: [...] }, así que accedemos a .data
+        if (Array.isArray(apiResponse.data) && apiResponse.data.length > 0) {
+            productos = apiResponse.data.map(mapRemoteProduct);
+            console.log("Productos cargados desde endpoint:", productos.length);
+        } else {
+            console.warn("El endpoint devolvió un formato inesperado.");
+            
+        }
+    } catch (err) {
+        console.error("Error cargando productos desde endpoint:", err);
+        
+    } finally {
+        renderProductos(); 
+    }
+}
+
+// mostrar los productos
+function renderProductos() {
+    const cont = document.querySelector(".opciones-productos");
+    if (!cont) {
+        return;
+    }
+
+    cont.innerHTML = productos.map(p => `
+        <div class="producto-card" data-cat="${p.cat}">
+            <img class="imagen-descripcion" src="${p.imagen || 'assets/logo-removebg-preview.png'}" alt="${p.name}">
+            
+            <div class="producto-info">
+                <h3>${p.name}</h3>
+                <p>${p.descripcion}</p> 
+                <p class="precio-tag">$${p.price.toLocaleString('es-CO')}</p>
+            </div>
+
+            <button class="add-btn" data-id="${p.id}">Añadir al carrito</button>
+        </div>
+    `).join('');
+}
+
+// hacer el pedido y enviarlo usando Post
+
+async function enviarPedido() {
+    const nombre = document.getElementById('nombre_cliente').value;
+    const telefono = document.getElementById('telefono_cliente').value;
+    const direccion = document.getElementById('direccion_cliente').value;
+
+    if (!nombre || !telefono || !direccion) {
+        alert("Por favor, completa todos tus datos.");
+        return;
+    }
+
+    if (carrito.length === 0) {
+        alert("Tu carrito está vacío.");
+        return;
+    }
+    const productosPedido = carrito.map(item => ({ 
+        id: item.id, 
+        precio: item.price, 
+        cantidad: item.cantidad 
+    }));
+    const valorTotal = carrito.reduce((sum, item) => sum + (item.price * item.cantidad), 0);
+
+    // Genera el número de pedido UNA SOLA VEZ y guárdalo en una variable.
+    const numeroPedido = Math.random().toString(36).substring(2, 9).toUpperCase();
+
+    // esto se manda en el post
+    const pedidoPOST = {
+        numero_pedido: numeroPedido, 
+        fecha: new Date().toISOString(), // Crea el objeto de la fecha
+        nombre_cliente: nombre,
+        telefono_cliente: telefono,
+        direccion_cliente: direccion,
+        productos: JSON.stringify(productosPedido),
+        valor_total: valorTotal
+    };
+
+    // Envía el pedido
+    try {
+        await fetch(ENDPOINT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify(pedidoPOST)
+        });
+
+        const params = new URLSearchParams();
+        params.set('pedido', numeroPedido);
+        params.set('fecha', pedidoPOST.fecha);
+        params.set('total', valorTotal);
+        
+        const itemsInfo = carrito.map(p => `${encodeURIComponent(p.name)}:${p.cantidad}`).join(',');
+        params.set('items', itemsInfo);
+
+        // Limpiar el carrito ANTES de redirigir
+        carrito = [];
+        guardarCarrito();
+        window.location.href = `confirmacion.html?${params.toString()}`;
+
+    } catch (error) {
+        console.error('Error al enviar el pedido:', error);
+        alert("Hubo un error al procesar tu pedido. Por favor, intenta de nuevo.");
+    }
+}
 
 
+//eventos
+document.addEventListener('click', (e) => {
+    // Agregar
+    const addBtn = e.target.closest('.add-btn');
+    if (addBtn) {
+        const id = Number(addBtn.dataset.id);
+        addItem(id);
+        return;
+    }
+
+    // Quitar
+    const remBtn = e.target.closest('.remove-btn');
+    if (remBtn) {
+        const id = Number(remBtn.dataset.id);
+        removeItem(id); 
+        return;
+    }
+
+    // Checkout
+    const checkoutBtn = e.target.closest('#checkout-btn');
+    if (checkoutBtn) {
+        enviarPedido();
+    }
+});
+
+// inicizlizar :D
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.querySelector(".opciones-productos")) {
+        cargarProductos();
+    }
+    
+    actualizarDisplay();
+    actualizarContador();
+});
 
 
 
