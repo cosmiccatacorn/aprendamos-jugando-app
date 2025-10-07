@@ -146,12 +146,8 @@ actualizarContador();
 
 
 
-// Query params mandar la info del carrito al server
-
-
 // URL de la API de Google Sheets
 const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwYMjMtanyO4SFW-DPVS5LcJw_ojYiWJC25dxirK3F18M2XLrULldWtfoBr_cgN1Iy_/exec";
-
 
 // === Enviar pedido a Google Sheets ===
 async function enviarPedidoGoogle(nombre, telefono, direccion) {
@@ -160,15 +156,16 @@ async function enviarPedidoGoogle(nombre, telefono, direccion) {
         return;
     }
 
-    // Contar cantidad de cada producto
+    // Contar cantidad de cada producto en el carrito
     const itemCount = carrito.reduce((acc, item) => {
         acc[item.id] = (acc[item.id] || 0) + 1;
         return acc;
     }, {});
 
-    // Crear array de productos con id, precio y cantidad
+    // Crear lista con los productos del pedido
     const productosPedido = Object.entries(itemCount).map(([id, cantidad]) => {
         const producto = productos.find(p => p.id == id);
+        if (!producto) return { id, nombre: "Producto desconocido", precio: 0, cantidad };
         return {
             id: producto.id,
             nombre: producto.name,
@@ -177,13 +174,14 @@ async function enviarPedidoGoogle(nombre, telefono, direccion) {
         };
     });
 
-    // Crear objeto JSON del pedido
+    // Crear el objeto del pedido
     const pedido = {
         nombre: nombre,
         telefono: telefono,
         direccion: direccion,
         productos: productosPedido,
-        valorTotal: carrito.reduce((sum, prod) => sum + prod.price, 0)
+        valorTotal: carrito.reduce((sum, prod) => sum + prod.price, 0),
+        fecha: new Date().toLocaleString()
     };
 
     try {
@@ -199,15 +197,15 @@ async function enviarPedidoGoogle(nombre, telefono, direccion) {
             actualizarContador();
             actualizarDisplay();
         } else {
-            alert("❌ Error al enviar el pedido");
+            alert("❌ Error al enviar el pedido (no se guardó)");
         }
     } catch (error) {
         console.error("Error al enviar el pedido:", error);
-        alert("❌ No se pudo conectar con la API");
+        alert("❌ No se pudo conectar con la API (revisa la URL / permisos)");
     }
 }
 
-
+// === Finalizar compra ===
 const checkout = () => {
     if (carrito.length === 0) {
         alert('El carrito está vacío');
@@ -223,14 +221,10 @@ const checkout = () => {
         return;
     }
 
-    // 🔹 Enviar pedido a Google Sheets
+    // Enviar pedido a Google Sheets
     enviarPedidoGoogle(nombre, telefono, direccion);
-
-    // 🔹 Limpiar el carrito después de enviar
-    cleanCarrito();
-    actualizarContador();
-    actualizarDisplay();
 };
+
 
 
 
