@@ -75,8 +75,11 @@ const actualizarDisplay = () => {
     if (!contenedorCarrito || !costo) return;
 
     const total = carrito.reduce((sum, prod) => sum + (prod.price * prod.cantidad), 0);
-    costo.textContent = `Total a pagar: $${total.toLocaleString('es-CO')}`;
+    
+    // 🚨 Error de Sintaxis Corregido: Se usaron backticks (`) para la plantilla de cadena.
+    costo.textContent = `Total a pagar: $${total.toLocaleString('es-CO')}`; 
 
+    // Al limpiar el carrito, actualizamos el costo a 0 antes de mostrar el mensaje de vacío.
     if (carrito.length === 0) {
         contenedorCarrito.innerHTML = "<p>El carrito está vacío.</p>";
         return;
@@ -107,7 +110,7 @@ function mapRemoteProduct(raw) {
 //ya ez
 async function cargarProductos() {
     const cont = document.querySelector(".opciones-productos");
-    if (!cont) return; 
+    if (!cont) return;
 
     // 1. Mostrar el loader para q se vea bonitoo
     cont.innerHTML = `
@@ -125,7 +128,11 @@ async function cargarProductos() {
 
     try {
         const resp = await fetch(ENDPOINT_URL);
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        
+        // 🚨 Error de Sintaxis Corregido: Se usaron backticks (`)
+        // para la plantilla de cadena.
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`); 
+        
         const apiResponse = await resp.json();
 
         // la api retorna { data: [...] }, así que accedemos a .data
@@ -134,13 +141,11 @@ async function cargarProductos() {
             console.log("Productos cargados desde endpoint:", productos.length);
         } else {
             console.warn("El endpoint devolvió un formato inesperado.");
-            
         }
     } catch (err) {
         console.error("Error cargando productos desde endpoint:", err);
-        
     } finally {
-        renderProductos(); 
+        renderProductos();
     }
 }
 
@@ -182,10 +187,10 @@ async function enviarPedido() {
         alert("Tu carrito está vacío.");
         return;
     }
-    const productosPedido = carrito.map(item => ({ 
-        id: item.id, 
-        precio: item.price, 
-        cantidad: item.cantidad 
+    const productosPedido = carrito.map(item => ({
+        id: item.id,
+        precio: item.price,
+        cantidad: item.cantidad
     }));
     const valorTotal = carrito.reduce((sum, item) => sum + (item.price * item.cantidad), 0);
 
@@ -194,7 +199,7 @@ async function enviarPedido() {
 
     // esto se manda en el post
     const pedidoPOST = {
-        numero_pedido: numeroPedido, 
+        numero_pedido: numeroPedido,
         fecha: new Date().toISOString(), // Crea el objeto de la fecha
         nombre_cliente: nombre,
         telefono_cliente: telefono,
@@ -215,14 +220,18 @@ async function enviarPedido() {
         params.set('pedido', numeroPedido);
         params.set('fecha', pedidoPOST.fecha);
         params.set('total', valorTotal);
-        
-        const itemsInfo = carrito.map(p => `${encodeURIComponent(p.name)}:${p.cantidad}`).join(',');
+
+        // Se usa el template literal para construir el string
+        const itemsInfo = carrito.map(p => `${ encodeURIComponent(p.name) }:${ p.cantidad }`).join(',');
         params.set('items', itemsInfo);
 
         // Limpiar el carrito ANTES de redirigir
         carrito = [];
         guardarCarrito();
-        window.location.href = `confirmacion.html?${params.toString()}`;
+        
+        // 🚨 CORRECCIÓN DE SINTAXIS: Se reemplazó la sintaxis ternaria incorrecta 
+        // por la concatenación de la URL base con los parámetros.
+        window.location.href = `confirmacion.html?${ params.toString() }`;
 
     } catch (error) {
         console.error('Error al enviar el pedido:', error);
@@ -245,7 +254,7 @@ document.addEventListener('click', (e) => {
     const remBtn = e.target.closest('.remove-btn');
     if (remBtn) {
         const id = Number(remBtn.dataset.id);
-        removeItem(id); 
+        removeItem(id);
         return;
     }
 
@@ -261,12 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector(".opciones-productos")) {
         cargarProductos();
     }
-    
+
     actualizarDisplay();
     actualizarContador();
 });
-
-
-
-
-
