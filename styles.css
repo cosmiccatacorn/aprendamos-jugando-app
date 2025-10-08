@@ -200,7 +200,8 @@ p {
 .desccripcion {
     font-size: medium;
     text-align: center;
-    padding: 0 2rem 1rem 2rem;
+    padding: 2rem;
+    margin: 1rem;
     color: #555;
 }
 
