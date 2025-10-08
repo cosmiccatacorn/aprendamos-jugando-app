@@ -1,4 +1,4 @@
-const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbysTDJglp8qscqpJ2yshvuPbnsGcF5mrrIaPU6XvdLJxJnd2_P6XDCOyrRI5hU30Sjn/exec"; // ej: "https://script.google.com/macros/s/XXX/exec"
+const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbysTDJglp8qscqpJ2yshvuPbnsGcF5mrrIaPU6XvdLJxJnd2_P6XDCOyrRI5hU30Sjn/exec";
 
 // Clase Producto
 class Producto {
@@ -12,9 +12,7 @@ class Producto {
     }
 }
 
-
-
-// variables
+// Variables globales
 let productos = []; // se llenará desde fetch
 const contenedorCarrito = document.querySelector(".product-summary");
 const cantidadCarrito = document.querySelector(".quant-carrito p");
@@ -45,7 +43,7 @@ const addItem = (id) => {
     actualizarContador();
 };
 
-// quitar producto, uno por uno si hay varios del mismo
+// Quitar producto, uno por uno si hay varios del mismo
 const removeItem = (id) => {
     const existingItem = carrito.find(p => p.id == id);
     if (!existingItem) return;
@@ -61,7 +59,7 @@ const removeItem = (id) => {
     actualizarContador();
 };
 
-// Muestra el número chiquito junto al carrito de compras :D
+// Muestra el número en el ícono del carrito
 const actualizarContador = () => {
     const cantidad = carrito.reduce((sum, item) => sum + item.cantidad, 0);
     if (cantidadCarrito) {
@@ -69,15 +67,13 @@ const actualizarContador = () => {
     }
 };
 
-
-// renderizar carrito 
+// Renderizar el contenido del carrito en la página del carrito
 const actualizarDisplay = () => {
     if (!contenedorCarrito || !costo) return;
 
     const total = carrito.reduce((sum, prod) => sum + (prod.price * prod.cantidad), 0);
     costo.textContent = `Total a pagar: $${total.toLocaleString('es-CO')}`;
 
-    // Al limpiar el carrito, actualizamos el costo a 0 antes de mostrar el mensaje de vacío.
     if (carrito.length === 0) {
         contenedorCarrito.innerHTML = "<p>El carrito está vacío.</p>";
         return;
@@ -91,32 +87,25 @@ const actualizarDisplay = () => {
     `).join('');
 };
 
-// === Mapear posibles claves del JSON remoto a Producto ===
-//ni idea, lo hizo chat :(
+// Mapea los datos de la API a un objeto Producto
 function mapRemoteProduct(raw) {
-    // detecta campos comunes y los normaliza
     const id = raw.id ?? raw.ID ?? raw.Id ?? raw.index ?? raw.row ?? raw.numero ?? raw.productId ?? raw.product_id;
     const name = raw.name ?? raw.nombre ?? raw.title ?? raw.producto ?? raw.nombre_producto;
     const price = raw.price ?? raw.precio ?? raw.Price ?? raw.Precio;
-    const descripcion = raw.descripcion ?? raw.description ?? raw.info ?? ""; 
-    
-    // AJUSTADO: Se añade 'desc' como una posible clave para la categoría
+    const descripcion = raw.descripcion ?? raw.description ?? raw.info ?? "";
     const cat = raw.cat ?? raw.category ?? raw.categoria ?? raw.desc ?? "";
-    
     const imagen = raw.imagen ?? raw.image ?? raw.img ?? raw.foto ?? "";
 
     return new Producto(id, name, price, descripcion, cat, imagen);
 }
 
-//ya ez
+// Carga los productos desde la API
 async function cargarProductos() {
     const cont = document.querySelector(".opciones-productos");
-    if (!cont) return; 
+    if (!cont) return;
 
-    // Obtiene la categoría a filtrar desde el atributo data del contenedor
     const categoryFilter = cont.dataset.categoryFilter;
 
-    // 1. Mostrar el loader para q se vea bonitoo
     cont.innerHTML = `
         <div class="loader-container">
             <svg viewBox="25 25 50 50">
@@ -135,33 +124,26 @@ async function cargarProductos() {
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const apiResponse = await resp.json();
 
-        // la api retorna { data: [...] }, así que accedemos a .data
         if (Array.isArray(apiResponse.data) && apiResponse.data.length > 0) {
             productos = apiResponse.data.map(mapRemoteProduct);
             console.log("Productos cargados desde endpoint:", productos.length);
         } else {
             console.warn("El endpoint devolvió un formato inesperado.");
-            
         }
     } catch (err) {
         console.error("Error cargando productos desde endpoint:", err);
-        
     } finally {
-        // Pasa la categoría a la función render
-        renderProductos(categoryFilter); 
+        renderProductos(categoryFilter);
     }
 }
 
-// mostrar los productos (ahora con filtro)
+// Muestra los productos en la página
 function renderProductos(categoryFilter = null) {
     const cont = document.querySelector(".opciones-productos");
-    if (!cont) {
-        return;
-    }
+    if (!cont) return;
 
-    // Filtra los productos si se especificó una categoría
-    const productosAMostrar = categoryFilter 
-        ? productos.filter(p => p.cat === categoryFilter) 
+    const productosAMostrar = categoryFilter
+        ? productos.filter(p => p.cat === categoryFilter)
         : productos;
 
     if (productosAMostrar.length === 0) {
@@ -172,20 +154,17 @@ function renderProductos(categoryFilter = null) {
     cont.innerHTML = productosAMostrar.map(p => `
         <div class="producto-card" data-cat="${p.cat}">
             <img class="imagen-descripcion" src="${p.imagen || 'assets/logo-removebg-preview.png'}" alt="${p.name}">
-            
             <div class="producto-info">
                 <h3>${p.name}</h3>
-                <p>${p.cat}</p> 
+                <p>${p.descripcion}</p> 
                 <p class="precio-tag">$${p.price.toLocaleString('es-CO')}</p>
             </div>
-
             <button class="add-btn" data-id="${p.id}">Añadir al carrito</button>
         </div>
     `).join('');
 }
 
-// hacer el pedido y enviarlo usando Post
-
+// Envía el pedido a la API
 async function enviarPedido() {
     const nombre = document.getElementById('nombre_cliente').value;
     const telefono = document.getElementById('telefono_cliente').value;
@@ -200,20 +179,18 @@ async function enviarPedido() {
         alert("Tu carrito está vacío.");
         return;
     }
-    const productosPedido = carrito.map(item => ({ 
-        id: item.id, 
-        precio: item.price, 
-        cantidad: item.cantidad 
+
+    const productosPedido = carrito.map(item => ({
+        id: item.id,
+        precio: item.price,
+        cantidad: item.cantidad
     }));
     const valorTotal = carrito.reduce((sum, item) => sum + (item.price * item.cantidad), 0);
-
-    // Genera el número de pedido UNA SOLA VEZ y guárdalo en una variable.
     const numeroPedido = Math.random().toString(36).substring(2, 9).toUpperCase();
 
-    // esto se manda en el post
     const pedidoPOST = {
-        numero_pedido: numeroPedido, 
-        fecha: new Date().toISOString(), // Crea el objeto de la fecha
+        numero_pedido: numeroPedido,
+        fecha: new Date().toISOString(),
         nombre_cliente: nombre,
         telefono_cliente: telefono,
         direccion_cliente: direccion,
@@ -221,7 +198,6 @@ async function enviarPedido() {
         valor_total: valorTotal
     };
 
-    // Envía el pedido
     try {
         await fetch(ENDPOINT_URL, {
             method: 'POST',
@@ -233,11 +209,9 @@ async function enviarPedido() {
         params.set('pedido', numeroPedido);
         params.set('fecha', pedidoPOST.fecha);
         params.set('total', valorTotal);
-        
         const itemsInfo = carrito.map(p => `${encodeURIComponent(p.name)}:${p.cantidad}`).join(',');
         params.set('items', itemsInfo);
 
-        // Limpiar el carrito ANTES de redirigir
         carrito = [];
         guardarCarrito();
         window.location.href = `confirmacion.html?${params.toString()}`;
@@ -248,10 +222,8 @@ async function enviarPedido() {
     }
 }
 
-
-//eventos
+// Manejador de eventos global
 document.addEventListener('click', (e) => {
-    // Agregar
     const addBtn = e.target.closest('.add-btn');
     if (addBtn) {
         const id = Number(addBtn.dataset.id);
@@ -259,161 +231,6 @@ document.addEventListener('click', (e) => {
         return;
     }
 
-    // Quitar
-    const remBtn = e.target.closest('.remove-btn');
-    if (remBtn) {
-        const id = Number(remBtn.dataset.id);
-        removeItem(id); 
-        return;
-    }
-
-    // Checkout
-    const checkoutBtn = e.target.closest('#checkout-btn');
-    if (checkoutBtn) {
-        enviarPedido();
-    }
-});
-
-// inicizlizar :D
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelector(".opciones-productos")) {
-        cargarProductos();
-    }
-    
-    actualizarDisplay();
-    actualizarContador();
-});
-
-    if (!ENDPOINT_URL) {
-        console.warn("ENDPOINT_URL no configurado :(");
-        return;
-    }
-
-    try {
-        const resp = await fetch(ENDPOINT_URL);
-        
-        // 🚨 Error de Sintaxis Corregido: Se usaron backticks (`)
-        // para la plantilla de cadena.
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`); 
-        
-        const apiResponse = await resp.json();
-
-        // la api retorna { data: [...] }, así que accedemos a .data
-        if (Array.isArray(apiResponse.data) && apiResponse.data.length > 0) {
-            productos = apiResponse.data.map(mapRemoteProduct);
-            console.log("Productos cargados desde endpoint:", productos.length);
-        } else {
-            console.warn("El endpoint devolvió un formato inesperado.");
-        }
-    } catch (err) {
-        console.error("Error cargando productos desde endpoint:", err);
-    } finally {
-        renderProductos();
-    }
-}
-
-// mostrar los productos
-function renderProductos() {
-    const cont = document.querySelector(".opciones-productos");
-    if (!cont) {
-        return;
-    }
-
-    cont.innerHTML = productos.map(p => `
-        <div class="producto-card" data-cat="${p.cat}">
-            <img class="imagen-descripcion" src="${p.imagen || 'assets/logo-removebg-preview.png'}" alt="${p.name}">
-            
-            <div class="producto-info">
-                <h3>${p.name}</h3>
-                <p>${p.descripcion}</p> 
-                <p class="precio-tag">$${p.price.toLocaleString('es-CO')}</p>
-            </div>
-
-            <button class="add-btn" data-id="${p.id}">Añadir al carrito</button>
-        </div>
-    `).join('');
-}
-
-// hacer el pedido y enviarlo usando Post
-
-async function enviarPedido() {
-    const nombre = document.getElementById('nombre_cliente').value;
-    const telefono = document.getElementById('telefono_cliente').value;
-    const direccion = document.getElementById('direccion_cliente').value;
-
-    if (!nombre || !telefono || !direccion) {
-        alert("Por favor, completa todos tus datos.");
-        return;
-    }
-
-    if (carrito.length === 0) {
-        alert("Tu carrito está vacío.");
-        return;
-    }
-    const productosPedido = carrito.map(item => ({
-        id: item.id,
-        precio: item.price,
-        cantidad: item.cantidad
-    }));
-    const valorTotal = carrito.reduce((sum, item) => sum + (item.price * item.cantidad), 0);
-
-    // Genera el número de pedido UNA SOLA VEZ y guárdalo en una variable.
-    const numeroPedido = Math.random().toString(36).substring(2, 9).toUpperCase();
-
-    // esto se manda en el post
-    const pedidoPOST = {
-        numero_pedido: numeroPedido,
-        fecha: new Date().toISOString(), // Crea el objeto de la fecha
-        nombre_cliente: nombre,
-        telefono_cliente: telefono,
-        direccion_cliente: direccion,
-        productos: JSON.stringify(productosPedido),
-        valor_total: valorTotal
-    };
-
-    // Envía el pedido
-    try {
-        await fetch(ENDPOINT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify(pedidoPOST)
-        });
-
-        const params = new URLSearchParams();
-        params.set('pedido', numeroPedido);
-        params.set('fecha', pedidoPOST.fecha);
-        params.set('total', valorTotal);
-
-        // Se usa el template literal para construir el string
-        const itemsInfo = carrito.map(p => `${ encodeURIComponent(p.name) }:${ p.cantidad }`).join(',');
-        params.set('items', itemsInfo);
-
-        // Limpiar el carrito ANTES de redirigir
-        carrito = [];
-        guardarCarrito();
-        
-        // 🚨 CORRECCIÓN DE SINTAXIS: Se reemplazó la sintaxis ternaria incorrecta 
-        // por la concatenación de la URL base con los parámetros.
-        window.location.href = `confirmacion.html?${ params.toString() }`;
-
-    } catch (error) {
-        console.error('Error al enviar el pedido:', error);
-        alert("Hubo un error al procesar tu pedido. Por favor, intenta de nuevo.");
-    }
-}
-
-
-//eventos
-document.addEventListener('click', (e) => {
-    // Agregar
-    const addBtn = e.target.closest('.add-btn');
-    if (addBtn) {
-        const id = Number(addBtn.dataset.id);
-        addItem(id);
-        return;
-    }
-
-    // Quitar
     const remBtn = e.target.closest('.remove-btn');
     if (remBtn) {
         const id = Number(remBtn.dataset.id);
@@ -421,19 +238,17 @@ document.addEventListener('click', (e) => {
         return;
     }
 
-    // Checkout
     const checkoutBtn = e.target.closest('#checkout-btn');
     if (checkoutBtn) {
         enviarPedido();
     }
 });
 
-// inicizlizar :D
+// Inicialización al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector(".opciones-productos")) {
         cargarProductos();
     }
-
     actualizarDisplay();
     actualizarContador();
 });
