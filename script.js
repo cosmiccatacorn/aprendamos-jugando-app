@@ -1,6 +1,6 @@
 const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbysTDJglp8qscqpJ2yshvuPbnsGcF5mrrIaPU6XvdLJxJnd2_P6XDCOyrRI5hU30Sjn/exec"; // ej: "https://script.google.com/macros/s/XXX/exec"
 
-// === Clase Producto
+// Clase Producto
 class Producto {
     constructor(id, name, price, descripcion = "", cat = "", imagen = "") {
         this.id = Number(id);
@@ -97,8 +97,11 @@ function mapRemoteProduct(raw) {
     const id = raw.id ?? raw.ID ?? raw.Id ?? raw.index ?? raw.row ?? raw.numero ?? raw.productId ?? raw.product_id;
     const name = raw.name ?? raw.nombre ?? raw.title ?? raw.producto ?? raw.nombre_producto;
     const price = raw.price ?? raw.precio ?? raw.Price ?? raw.Precio;
-    const descripcion = raw.descripcion ?? raw.description ?? raw.desc ?? raw.info ?? "";
-    const cat = raw.cat ?? raw.category ?? raw.categoria ?? "";
+    const descripcion = raw.descripcion ?? raw.description ?? raw.info ?? ""; 
+    
+    // AJUSTADO: Se añade 'desc' como una posible clave para la categoría
+    const cat = raw.cat ?? raw.category ?? raw.categoria ?? raw.desc ?? "";
+    
     const imagen = raw.imagen ?? raw.image ?? raw.img ?? raw.foto ?? "";
 
     return new Producto(id, name, price, descripcion, cat, imagen);
@@ -108,6 +111,9 @@ function mapRemoteProduct(raw) {
 async function cargarProductos() {
     const cont = document.querySelector(".opciones-productos");
     if (!cont) return; 
+
+    // Obtiene la categoría a filtrar desde el atributo data del contenedor
+    const categoryFilter = cont.dataset.categoryFilter;
 
     // 1. Mostrar el loader para q se vea bonitoo
     cont.innerHTML = `
@@ -140,24 +146,35 @@ async function cargarProductos() {
         console.error("Error cargando productos desde endpoint:", err);
         
     } finally {
-        renderProductos(); 
+        // Pasa la categoría a la función render
+        renderProductos(categoryFilter); 
     }
 }
 
-// mostrar los productos
-function renderProductos() {
+// mostrar los productos (ahora con filtro)
+function renderProductos(categoryFilter = null) {
     const cont = document.querySelector(".opciones-productos");
     if (!cont) {
         return;
     }
 
-    cont.innerHTML = productos.map(p => `
+    // Filtra los productos si se especificó una categoría
+    const productosAMostrar = categoryFilter 
+        ? productos.filter(p => p.cat === categoryFilter) 
+        : productos;
+
+    if (productosAMostrar.length === 0) {
+        cont.innerHTML = "<p>No se encontraron productos en esta categoría.</p>";
+        return;
+    }
+
+    cont.innerHTML = productosAMostrar.map(p => `
         <div class="producto-card" data-cat="${p.cat}">
             <img class="imagen-descripcion" src="${p.imagen || 'assets/logo-removebg-preview.png'}" alt="${p.name}">
             
             <div class="producto-info">
                 <h3>${p.name}</h3>
-                <p>${p.descripcion}</p> 
+                <p>${p.cat}</p> 
                 <p class="precio-tag">$${p.price.toLocaleString('es-CO')}</p>
             </div>
 
@@ -182,10 +199,10 @@ async function enviarPedido() {
         alert("Tu carrito está vacío.");
         return;
     }
-    const productosPedido = carrito.map(item => ({
-        id: item.id,
-        precio: item.price,
-        cantidad: item.cantidad
+    const productosPedido = carrito.map(item => ({ 
+        id: item.id, 
+        precio: item.price, 
+        cantidad: item.cantidad 
     }));
     const valorTotal = carrito.reduce((sum, item) => sum + (item.price * item.cantidad), 0);
 
@@ -194,7 +211,7 @@ async function enviarPedido() {
 
     // esto se manda en el post
     const pedidoPOST = {
-        numero_pedido: numeroPedido,
+        numero_pedido: numeroPedido, 
         fecha: new Date().toISOString(), // Crea el objeto de la fecha
         nombre_cliente: nombre,
         telefono_cliente: telefono,
@@ -215,18 +232,14 @@ async function enviarPedido() {
         params.set('pedido', numeroPedido);
         params.set('fecha', pedidoPOST.fecha);
         params.set('total', valorTotal);
-
-        // Se usa el template literal para construir el string
-        const itemsInfo = carrito.map(p => `${ encodeURIComponent(p.name) }:${ p.cantidad }`).join(',');
+        
+        const itemsInfo = carrito.map(p => `${encodeURIComponent(p.name)}:${p.cantidad}`).join(',');
         params.set('items', itemsInfo);
 
         // Limpiar el carrito ANTES de redirigir
         carrito = [];
         guardarCarrito();
-        
-        // 🚨 CORRECCIÓN DE SINTAXIS: Se reemplazó la sintaxis ternaria incorrecta 
-        // por la concatenación de la URL base con los parámetros.
-        window.location.href = `confirmacion.html?${ params.toString() }`;
+        window.location.href = `confirmacion.html?${params.toString()}`;
 
     } catch (error) {
         console.error('Error al enviar el pedido:', error);
@@ -249,7 +262,7 @@ document.addEventListener('click', (e) => {
     const remBtn = e.target.closest('.remove-btn');
     if (remBtn) {
         const id = Number(remBtn.dataset.id);
-        removeItem(id);
+        removeItem(id); 
         return;
     }
 
@@ -265,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector(".opciones-productos")) {
         cargarProductos();
     }
-
+    
     actualizarDisplay();
     actualizarContador();
 });
