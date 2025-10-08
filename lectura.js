@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
         items.forEach(itemString => {
             const [nombre, cantidad] = itemString.split(':');
             const li = document.createElement('li');
-            li.textContent = `${decodeURIComponent(nombre)} (x${cantidad})`;
-            
+            li.textContent = `${decodeURIComponent(nombre)} x${cantidad}`;
+
             itemsList.appendChild(li);
         });
     } else {

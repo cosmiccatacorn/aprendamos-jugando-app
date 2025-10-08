@@ -56,8 +56,34 @@ const removeItem = (id) => {
         carrito = carrito.filter(p => p.id != id);
     }
 
-    guardarCarrito();
-    actualizarDisplay();
+    // Crear objeto para contar cantidad de cada producto
+    const itemCount = carrito.reduce((acc, item) => {
+        acc[item.id] = (acc[item.id] || 0) + 1;
+        return acc;
+    }, {});
+
+    // Crear string de items con formato "nombre:cantidad,nombre2:cantidad2"
+    const items = Object.entries(itemCount)
+        .map(([id, cantidad]) => {
+            const producto = productos.find(p => p.id == id);
+            return `${encodeURIComponent(producto.name)}:${cantidad}`;
+        })
+        .join(',');
+
+    const total = carrito.reduce((sum, prod) => sum + prod.price, 0);
+
+    // Construir URL con parámetros
+    const params = new URLSearchParams();
+    params.set('items', items);
+    params.set('total', total);
+    params.set('fecha', new Date().toISOString());
+    params.set('pedido', Math.random().toString(36).substring(2, 8));
+
+    // Redireccionar a la página de confirmación
+    window.location.href = `./confirmacion.html?${params.toString()}`;
+    //window.location.href = `carrito.html?${params.toString()}`;
+
+    cleanCarrito();
     actualizarContador();
 };
 
