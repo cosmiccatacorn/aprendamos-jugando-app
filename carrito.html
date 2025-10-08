@@ -1,25 +1,22 @@
 <!DOCTYPE html>
-
-<html>
-    <head>
-        <title>Aprendamos Jugando</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="script.js" defer></script>
-        <script src="lectura.js" defer></script>
-        <link rel="stylesheet" href="styles.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-        <link rel="icon" type="image/png" href="assets/logo-removebg-preview.png">
-    </head>
-    <body>
-        <header>
-            <div class="brand">
-                <div class="logo"><img class="logo" src="assets/logo-removebg-preview.png">
-                </div>
-                <div class="title"><h1> Aprendamos jugando </h1></div>
-                
-
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Aprendamos Jugando - Carrito</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js" defer></script>
+    <script src="lectura.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/logo-removebg-preview.png">
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <div class="logo">
+                <img class="logo" src="assets/logo-removebg-preview.png" alt="Logo">
             </div>
             <div class="title"><h1>Aprendamos jugando</h1></div>
         </div>
@@ -50,11 +47,11 @@
 
         <!-- Formulario para datos del cliente -->
         <div class="checkout-form">
-            <h2>Completa tus datos para finalizar el pedido</h2>
-            <input type="text" id="nombre_cliente" placeholder="Nombre completo" required>
-            <input type="tel" id="telefono_cliente" placeholder="Teléfono" required>
-            <input type="text" id="direccion_cliente" placeholder="Dirección de envío" required>
-            <button id="checkout-btn">Realizar Pedido</button>
+            <h2 class="item1">Completa tus datos para finalizar el pedido</h2>
+            <input class="item2" type="text" id="nombre_cliente" placeholder="Nombre completo" required>
+            <input class="item3" type="tel" id="telefono_cliente" placeholder="Teléfono" required>
+            <input class="item4" type="text" id="direccion_cliente" placeholder="Dirección de envío" required>
+            <button class="boton-pedido" class="item5" id="checkout-btn">Realizar Pedido</button>
         </div>
     </main>
 
