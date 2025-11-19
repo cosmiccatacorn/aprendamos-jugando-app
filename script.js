@@ -1,121 +1,63 @@
-const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbysTDJglp8qscqpJ2yshvuPbnsGcF5mrrIaPU6XvdLJxJnd2_P6XDCOyrRI5hU30Sjn/exec"; // ej: "https://script.google.com/macros/s/XXX/exec"
+/* ============================
+    CONFIGURACIÓN GENERAL
+============================= */
 
-// Clase Producto
-class Producto {
-    constructor(id, name, price, descripcion = "", cat = "", imagen = "") {
-        this.id = Number(id);
-        this.name = name;
-        this.price = Number(price) || 0;
-        this.cat = cat;
-        this.descripcion = descripcion;
-        this.imagen = imagen;
+const API_BASE = "https://aprendamos-jugando-api.onrender.com/api";
+
+// Token JWT almacenado localmente
+function getToken() {
+    return localStorage.getItem("token");
+}
+
+function setToken(token) {
+    localStorage.setItem("token", token);
+}
+
+function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+
+/* ============================
+        LOGIN EMPLEADO
+============================= */
+
+async function loginEmpleado(username, password) {
+    try {
+        const resp = await fetch(`${API_BASE}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+
+        if (!resp.ok) {
+            alert("Usuario o contraseña incorrectos");
+            return;
+        }
+
+        const data = await resp.json();
+        setToken(data.token);
+
+        alert("Inicio de sesión exitoso");
+        window.location.href = "dashboard.html";
+
+    } catch (err) {
+        console.error("Error login:", err);
     }
 }
 
+/* ============================
+        PRODUCTOS
+============================= */
 
+let productos = [];
 
-// variables
-let productos = []; // se llenará desde fetch
-const contenedorCarrito = document.querySelector(".product-summary");
-const cantidadCarrito = document.querySelector(".quant-carrito p");
-const costo = document.querySelector(".precio");
-
-// Cargar carrito desde localStorage al iniciar
-let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
-const guardarCarrito = () => {
-    localStorage.setItem('carrito', JSON.stringify(carrito));
-};
-
-// Agregar producto (con agrupación)
-const addItem = (id) => {
-    const item = productos.find(p => p.id == id);
-    if (!item) return;
-
-    const existingItem = carrito.find(p => p.id == id);
-
-    if (existingItem) {
-        existingItem.cantidad++;
-    } else {
-        carrito.push({ ...item, cantidad: 1 });
-    }
-
-    guardarCarrito();
-    actualizarDisplay();
-    actualizarContador();
-};
-
-// quitar producto, uno por uno si hay varios del mismo
-const removeItem = (id) => {
-    const existingItem = carrito.find(p => p.id == id);
-    if (!existingItem) return;
-
-    existingItem.cantidad--;
-
-    if (existingItem.cantidad <= 0) {
-        carrito = carrito.filter(p => p.id != id);
-    }
-
-    guardarCarrito();
-    actualizarDisplay();
-    actualizarContador();
-};
-
-// Muestra el número chiquito junto al carrito de compras :D
-const actualizarContador = () => {
-    const cantidad = carrito.reduce((sum, item) => sum + item.cantidad, 0);
-    if (cantidadCarrito) {
-        cantidadCarrito.textContent = cantidad > 9 ? "9+" : cantidad;
-    }
-};
-
-
-// renderizar carrito 
-const actualizarDisplay = () => {
-    if (!contenedorCarrito || !costo) return;
-
-    const total = carrito.reduce((sum, prod) => sum + (prod.price * prod.cantidad), 0);
-    costo.textContent = `Total a pagar: $${total.toLocaleString('es-CO')}`;
-
-    if (carrito.length === 0) {
-        contenedorCarrito.innerHTML = "<p>El carrito está vacío.</p>";
-        return;
-    }
-
-    contenedorCarrito.innerHTML = carrito.map((item) => `
-        <div class="cart-item" data-id="${item.id}">
-            <span>${item.name} (x${item.cantidad}) - $${(item.price * item.cantidad).toLocaleString('es-CO')}</span>
-            <button class="remove-btn" data-id="${item.id}">Quitar</button>
-        </div>
-    `).join('');
-};
-
-// === Mapear posibles claves del JSON remoto a Producto ===
-//ni idea, lo hizo chat :(
-function mapRemoteProduct(raw) {
-    // detecta campos comunes y los normaliza
-    const id = raw.id ?? raw.ID ?? raw.Id ?? raw.index ?? raw.row ?? raw.numero ?? raw.productId ?? raw.product_id;
-    const name = raw.name ?? raw.nombre ?? raw.title ?? raw.producto ?? raw.nombre_producto;
-    const price = raw.price ?? raw.precio ?? raw.Price ?? raw.Precio;
-    const descripcion = raw.descripcion ?? raw.description ?? raw.info ?? ""; 
-    
-    // AJUSTADO: Se añade 'desc' como una posible clave para la categoría
-    const cat = raw.cat ?? raw.category ?? raw.categoria ?? raw.desc ?? "";
-    
-    const imagen = raw.imagen ?? raw.image ?? raw.img ?? raw.foto ?? "";
-
-    return new Producto(id, name, price, descripcion, cat, imagen);
-}
-
-//ya ez
 async function cargarProductos() {
     const cont = document.querySelector(".opciones-productos");
-    if (!cont) return; 
+    if (!cont) return;
 
-    // Obtiene la categoría a filtrar desde el atributo data del contenedor
-    const categoryFilter = cont.dataset.categoryFilter;
+    const categoryFilter = cont.dataset.categoryFilter; // "SENSORIAL", "FLASHCARDS", etc.
 
-    // 1. Mostrar el loader para q se vea bonitoo
     cont.innerHTML = `
         <div class="loader-container">
             <svg viewBox="25 25 50 50">
@@ -124,161 +66,284 @@ async function cargarProductos() {
         </div>
     `;
 
-    if (!ENDPOINT_URL) {
-        console.warn("ENDPOINT_URL no configurado :(");
-        return;
+    let url = `${API_BASE}/productos`;
+
+    // Si hay categoría → construir el endpoint adecuado
+    if (categoryFilter) {
+        const categoriaBackend = categoryFilter.toLowerCase(); // backend usa minúsculas
+        url = `${API_BASE}/productos/categoria/${categoriaBackend}`;
     }
 
     try {
-        const resp = await fetch(ENDPOINT_URL);
+        const resp = await fetch(url);
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const apiResponse = await resp.json();
 
-        // la api retorna { data: [...] }, así que accedemos a .data
-        if (Array.isArray(apiResponse.data) && apiResponse.data.length > 0) {
-            productos = apiResponse.data.map(mapRemoteProduct);
-            console.log("Productos cargados desde endpoint:", productos.length);
-        } else {
-            console.warn("El endpoint devolvió un formato inesperado.");
-            
-        }
+        productos = await resp.json(); // backend ya retorna array limpio
+        console.log("Productos cargados:", productos);
+
     } catch (err) {
-        console.error("Error cargando productos desde endpoint:", err);
-        
-    } finally {
-        // Pasa la categoría a la función render
-        renderProductos(categoryFilter); 
-    }
-}
-
-// mostrar los productos (ahora con filtro)
-function renderProductos(categoryFilter = null) {
-    const cont = document.querySelector(".opciones-productos");
-    if (!cont) {
+        console.error("Error cargando productos desde backend:", err);
+        cont.innerHTML = "<p>Error cargando los productos 😢</p>";
         return;
     }
 
-    // Filtra los productos si se especificó una categoría
-    const productosAMostrar = categoryFilter 
-        ? productos.filter(p => p.cat === categoryFilter) 
-        : productos;
+    renderProductos();
+}
 
-    if (productosAMostrar.length === 0) {
+function renderProductos() {
+    const cont = document.querySelector(".opciones-productos");
+    if (!cont) return;
+
+    if (productos.length === 0) {
         cont.innerHTML = "<p>No se encontraron productos en esta categoría.</p>";
         return;
     }
 
-    cont.innerHTML = productosAMostrar.map(p => `
-        <div class="producto-card" data-cat="${p.cat}">
-            <img class="imagen-descripcion" src="${p.imagen || 'assets/logo-removebg-preview.png'}" alt="${p.name}">
-            
+    cont.innerHTML = productos.map(p => `
+        <div class="producto-card">
+            <img class="imagen-descripcion" src="${p.imagenUrl || 'assets/logo-removebg-preview.png'}" alt="${p.nombre}">
             <div class="producto-info">
-                <h3>${p.name}</h3>
-                <p>${p.cat}</p> 
-                <p class="precio-tag">$${p.price.toLocaleString('es-CO')}</p>
+                <h3>${p.nombre}</h3>
+                <p>${p.descripcion}</p> 
+                <p class="precio-tag">$${p.precio.toLocaleString('es-CO')}</p>
             </div>
-
             <button class="add-btn" data-id="${p.id}">Añadir al carrito</button>
         </div>
     `).join('');
 }
 
-// hacer el pedido y enviarlo usando Post
+
+/* ============================
+        CARRITO
+============================= */
+
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+function guardarCarrito() {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+function addItem(id) {
+    const prod = productos.find(p => p.id == id);
+    if (!prod) return;
+
+    const item = carrito.find(p => p.id == id);
+
+    if (item) item.cantidad++;
+    else carrito.push({ ...prod, cantidad: 1 });
+
+    guardarCarrito();
+    actualizarDisplay();
+    actualizarContador();
+}
+
+function removeItem(id) {
+    const item = carrito.find(p => p.id == id);
+    if (!item) return;
+
+    item.cantidad--;
+
+    if (item.cantidad <= 0)
+        carrito = carrito.filter(p => p.id != id);
+
+    guardarCarrito();
+    actualizarDisplay();
+    actualizarContador();
+}
+
+function actualizarContador() {
+    const elem = document.querySelector(".quant-carrito p");
+    if (!elem) return;
+
+    const total = carrito.reduce((sum, i) => sum + i.cantidad, 0);
+    elem.textContent = total > 9 ? "9+" : total;
+}
+
+function actualizarDisplay() {
+    const cont = document.querySelector(".product-summary");
+    const costo = document.querySelector(".precio");
+
+    if (!cont || !costo) return;
+
+    if (carrito.length === 0) {
+        cont.innerHTML = "<p>El carrito está vacío.</p>";
+        costo.textContent = "Total: $0";
+        return;
+    }
+
+    cont.innerHTML = carrito.map(item => `
+        <div class="cart-item">
+            <span>${item.nombre} (x${item.cantidad}) - $${(item.precio * item.cantidad).toLocaleString('es-CO')}</span>
+            <button class="remove-btn" data-id="${item.id}">Quitar</button>
+        </div>
+    `).join('');
+
+    const total = carrito.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
+    costo.textContent = `Total a pagar: $${total.toLocaleString('es-CO')}`;
+}
+
+/* ============================
+        ENVIAR PEDIDO
+============================= */
 
 async function enviarPedido() {
-    const nombre = document.getElementById('nombre_cliente').value;
-    const telefono = document.getElementById('telefono_cliente').value;
-    const direccion = document.getElementById('direccion_cliente').value;
+    const nombre = document.getElementById('nombre_cliente')?.value;
+    const telefono = document.getElementById('telefono_cliente')?.value;
+    const direccion = document.getElementById('direccion_cliente')?.value;
+    const correo = document.getElementById('correo_cliente')?.value;
 
-    if (!nombre || !telefono || !direccion) {
-        alert("Por favor, completa todos tus datos.");
+    if (!nombre || !telefono || !direccion || !correo) {
+        alert("Por favor completa todos tus datos");
         return;
     }
 
     if (carrito.length === 0) {
-        alert("Tu carrito está vacío.");
+        alert("El carrito está vacío");
         return;
     }
-    const productosPedido = carrito.map(item => ({ 
-        id: item.id, 
-        precio: item.price, 
-        cantidad: item.cantidad 
+
+    const detalles = carrito.map(item => ({
+        producto: { id: item.id },
+        cantidad: item.cantidad
     }));
-    const valorTotal = carrito.reduce((sum, item) => sum + (item.price * item.cantidad), 0);
 
-    // Genera el número de pedido UNA SOLA VEZ y guárdalo en una variable.
-    const numeroPedido = Math.random().toString(36).substring(2, 9).toUpperCase();
-
-    // esto se manda en el post
-    const pedidoPOST = {
-        numero_pedido: numeroPedido, 
-        fecha: new Date().toISOString(), // Crea el objeto de la fecha
-        nombre_cliente: nombre,
-        telefono_cliente: telefono,
-        direccion_cliente: direccion,
-        productos: JSON.stringify(productosPedido),
-        valor_total: valorTotal
+    const pedido = {
+        nombreCliente: nombre,
+        telefonoCliente: telefono,
+        direccionCliente: direccion,
+        correoCliente: correo,
+        detalles: detalles
     };
 
-    // Envía el pedido
     try {
-        await fetch(ENDPOINT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify(pedidoPOST)
+        const resp = await fetch(`${API_BASE}/pedidos`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(pedido)
         });
 
-        const params = new URLSearchParams();
-        params.set('pedido', numeroPedido);
-        params.set('fecha', pedidoPOST.fecha);
-        params.set('total', valorTotal);
-        
-        const itemsInfo = carrito.map(p => `${encodeURIComponent(p.name)}:${p.cantidad}`).join(',');
-        params.set('items', itemsInfo);
+        if (!resp.ok) throw new Error("Error enviando pedido");
 
-        // Limpiar el carrito ANTES de redirigir
+        const data = await resp.json();
+
+        // 1. Guardar en localStorage antes de limpiar el carrito
+        const ultimoPedido = {
+            numeroPedido: data.id, // ID del pedido desde el backend
+            fecha: new Date().toISOString(),
+            total: carrito.reduce((sum, item) => sum + item.precio * item.cantidad, 0),
+            detalles: carrito.map(item => ({
+                nombre: item.nombre,
+                cantidad: item.cantidad
+            }))
+        };
+
+        localStorage.setItem("ultimoPedido", JSON.stringify(ultimoPedido));
+
+        // 2. Limpiar el carrito
         carrito = [];
         guardarCarrito();
-        window.location.href = `confirmacion.html?${params.toString()}`;
 
-    } catch (error) {
-        console.error('Error al enviar el pedido:', error);
-        alert("Hubo un error al procesar tu pedido. Por favor, intenta de nuevo.");
+        // 3. Redirigir a la página de confirmación
+        window.location.href = `confirmacion.html?id=${data.id}`;
+
+    } catch (err) {
+        console.error("Error:", err);
+        alert("No se pudo procesar tu pedido.");
     }
 }
 
+/* ============================
+    EMPLEADO: VER PEDIDOS
+============================= */
 
-//eventos
-document.addEventListener('click', (e) => {
-    // Agregar
-    const addBtn = e.target.closest('.add-btn');
-    if (addBtn) {
-        const id = Number(addBtn.dataset.id);
-        addItem(id);
+async function cargarPedidos() {
+    const token = getToken();
+    if (!token) {
+        alert("No tienes permiso");
         return;
     }
 
-    // Quitar
-    const remBtn = e.target.closest('.remove-btn');
-    if (remBtn) {
-        const id = Number(remBtn.dataset.id);
-        removeItem(id); 
+    const resp = await fetch(`${API_BASE}/pedidos`, {
+        headers: { "Authorization": `Bearer ${token}` }
+    });
+
+    if (!resp.ok) {
+        alert("Error cargando pedidos");
         return;
     }
 
-    // Checkout
-    const checkoutBtn = e.target.closest('#checkout-btn');
-    if (checkoutBtn) {
+    const lista = await resp.json();
+    renderPedidos(lista);
+}
+
+function renderPedidos(lista) {
+    const cont = document.getElementById("pedidos");
+    if (!cont) return;
+
+    cont.innerHTML = lista.map(p => `
+        <div class="pedido-card">
+            <h3>Pedido #${p.id}</h3>
+            <p><strong>Cliente:</strong> ${p.nombreCliente}</p>
+            <p><strong>Total:</strong> $${p.total.toLocaleString('es-CO')}</p>
+            <p><strong>Estado:</strong> ${p.enviado ? "Enviado" : "Pendiente"}</p>
+            <button onclick="marcarEnviado(${p.id})">Marcar enviado</button>
+        </div>
+    `).join('');
+}
+
+/* ============================
+ EMPLEADO: MARCAR COMO ENVIADO
+============================= */
+
+async function marcarEnviado(id) {
+    const token = getToken();
+    if (!token) return alert("No autorizado");
+
+    await fetch(`${API_BASE}/pedidos/${id}`, {
+        method: "PUT",
+        headers: { "Authorization": `Bearer ${token}` }
+    });
+
+    cargarPedidos();
+}
+
+/* ============================
+    LISTENERS GLOBALES
+============================= */
+
+document.addEventListener("click", e => {
+    if (e.target.classList.contains("add-btn")) {
+        addItem(Number(e.target.dataset.id));
+    }
+
+    if (e.target.classList.contains("remove-btn")) {
+        removeItem(Number(e.target.dataset.id));
+    }
+
+    if (e.target.id === "checkout-btn") {
         enviarPedido();
     }
 });
 
-// inicizlizar :D
-document.addEventListener('DOMContentLoaded', () => {
+/* ============================
+    INICIALIZACIÓN AUTOMÁTICA
+============================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    // Cargar productos si estamos en catálogo
     if (document.querySelector(".opciones-productos")) {
         cargarProductos();
     }
-    
+
+    // Mostrar carrito si estamos en checkout
     actualizarDisplay();
     actualizarContador();
+
+    // Cargar pedidos si estamos en panel del empleado
+    if (document.getElementById("pedidos")) {
+        cargarPedidos();
+    }
 });

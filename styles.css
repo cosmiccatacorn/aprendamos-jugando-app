@@ -139,6 +139,8 @@ p {
 .navegar button:hover {
     background-color: #3498db;
     transform: scale(1.2);
+    
+    cursor: pointer;
 
 }
 
@@ -233,6 +235,8 @@ p {
 
 .opciones-productos button:hover {
     background-color: #3498db;
+    
+    cursor: pointer;
 }
 
 .opciones-productos p {
@@ -301,13 +305,58 @@ button {
 button:hover {
     text-decoration: underline;
     background-color: var(--secondary-color);
+    
+    cursor: pointer;
 
 }
+
+table {
+    width: auto;
+    border-collapse: collapse;
+    margin: 1rem;
+}
+
+thead {
+    background: #333;
+    color: white;
+}
+
+td, th {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.detalles {
+    background: #f9f9f9;
+    padding: 10px;
+}
+
+
 
 button:active {
     transform:translate(-2px, -2px);
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
+
+.iniciarsesion {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: var(--secondary-color);
+    unicode-bidi: isolate;
+}
+
+.botoncitogg {
+    padding: 10px;
+    margin: 10px;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+
+}
+
 
 header,
 .brand,
@@ -315,7 +364,7 @@ header,
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;;
     width: 100%;
     background-color: var(--secondary-color);
 }
@@ -522,6 +571,7 @@ footer div {
     button.add-to-cart:hover {
         text-decoration: underline;
         background-color: var(--secondary-color);
+        cursor: pointer;
         
     }
     
@@ -1000,10 +1050,52 @@ footer div {
     font-size: 1em;
     color: var(--background-color);
     background-color: var(--secondary-color);
+    width: 100%;
     margin: 0;
-    padding: 1rem;
 }
 
+
+.cuadrito {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: 2px solid var(--tertiary-color);
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cuadrito label, .cuadrito h2 {
+    color: var(--text-color);
+}
+
+
+.login {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 300px;
+    align-items: center;
+}
+
+.login input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+}
+
+.login input[type="submit"] {
+    background-color: var(--primary-color);
+    border: none;
+    cursor: pointer;
+}
+
+.gg {
+    color: var(--text-color);
+}
 
 
 .ingebits h4, .ingebits h2 {
@@ -1350,16 +1442,17 @@ main {
     }
 }
 
-
 .checkout-form {
-    display: grid;
-    grid-template-columns: auto auto auto;
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
     padding: 1rem;
     border-radius: 1rem;
     width: 100%;
     max-width: 600px;
     margin: 1rem auto;
+    justify-content: center;
+    align-items: center;
 }
 
 .checkout-form .item1 {

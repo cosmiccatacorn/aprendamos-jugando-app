@@ -12,35 +12,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/logo-removebg-preview.png">
 </head>
-<body>
-    <header>
-        <div class="brand">
-            <div class="logo">
-                <img class="logo" src="assets/logo-removebg-preview.png" alt="Logo">
+<body><header>
+            <div class="brand">
+                <div class="logo"><img class="logo" src="assets/logo-removebg-preview.png">
+                </div>
+                <div class="title"><h1> Aprendamos jugando </h1></div>
+                
             </div>
-            <div class="title"><h1>Aprendamos jugando</h1></div>
-        </div>
-        <nav class="menu">
-            <ul>
-                <li class="item"><a href="index.html">Inicio</a></li>
-                <li class="item dropdown">
-                    <a href="catalogo.html">Productos</a>
-                    <ul class="submenu">
-                        <li><a href="libros-borrables.html">Libros borrables</a></li>
-                        <li><a href="libros-sensoriales.html">Libros sensoriales</a></li>
-                        <li><a href="flashcards.html">Flashcards</a></li>
-                        <li><a href="imprimibles.html">Imprimibles</a></li>
-                    </ul>
-                </li>
-                <li class="item"><a href="carrito.html">Mi carrito</a></li>
-            </ul>
-        </nav>
-    </header>
+            <nav class="menu">
+                <ul>
+                    <li class="item"><a href="index.html">Inicio</a></li>
+                    <li class="item dropdown">
+                            <a href="catalogo.html">Productos</a>
+                            <ul class="submenu">
+                                <li><a href="libros-borrables.html">Libros borrables</a></li>
+                                <li><a href="libros-sensoriales.html">Libros sensoriales</a></li>
+                                <li><a href="flashcards.html">Flashcards</a></li>
+                                <li><a href="imprimibles.html">Imprimibles</a></li>
+                            </ul>
+                        </li>
+                    <li class="item"><a href="carrito.html">Mi carrito</a></li>
+                </ul>
+            </nav>
+            <div class="iniciarsesion">
+                <div class="botoncitogg">
+                    <a  href="login.html"> Inicia Sesión</a>
+                </div>
+
+            </div>
+        </header>
 
     <main>
         <h1 class="texto-mi-carrito">Mi carrito 🛒</h1>
         <div class="contenedor">
-            <!-- El resumen del carrito se generará aquí por JS -->
             <div class="product-summary"></div>
             <div class="precio"></div>
         </div>
@@ -51,6 +55,7 @@
             <input class="item2" type="text" id="nombre_cliente" placeholder="Nombre completo" required>
             <input class="item3" type="tel" id="telefono_cliente" placeholder="Teléfono" required>
             <input class="item4" type="text" id="direccion_cliente" placeholder="Dirección de envío" required>
+            <input class="item4" type="email" id="correo_cliente" placeholder="E-mail" required>
             <button class="boton-pedido" class="item5" id="checkout-btn">Realizar Pedido</button>
         </div>
     </main>
