@@ -38,7 +38,6 @@ async function loginEmpleado(username, password) {
         const data = await resp.json();
         setToken(data.token);
 
-        alert("Inicio de sesión exitoso");
         window.location.href = "dashboard.html";
 
     } catch (err) {
@@ -332,6 +331,15 @@ document.addEventListener("click", e => {
 ============================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    // Si estamos en la página de login y ya hay token, redirige al dashboard
+    const isLoginPage = window.location.pathname.endsWith('login.html') 
+        || window.location.pathname.endsWith('/login') 
+        || Boolean(document.querySelector('form.login'));
+    if (isLoginPage && getToken()) {
+        window.location.href = 'dashboard.html';
+        return;
+    }
 
     // Cargar productos si estamos en catálogo
     if (document.querySelector(".opciones-productos")) {
