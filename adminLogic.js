@@ -1,5 +1,9 @@
-const API_URL = "https://aprendamos-jugando-api.onrender.com/api/pedidos";
-const token = localStorage.getItem("token");
+// Obtener token desde sessionStorage (igual que en script.js)
+function getToken() {
+    return sessionStorage.getItem("token");
+}
+
+const token = getToken();
 
 // Verifica autenticación
 if (!token) {
@@ -9,7 +13,7 @@ if (!token) {
 // Cargar pedidos
 async function cargarPedidos() {
     try {
-        const resp = await fetch(API_URL, {
+        const resp = await fetch("https://aprendamos-jugando-api.onrender.com/api/pedidos", {
             headers: {
                 "Authorization": "Bearer " + token
             }
@@ -99,9 +103,8 @@ function activarBotones() {
 }
 
 async function marcarComoEnviado(id) {
-
     try {
-        const resp = await fetch(`${API_URL}/${id}/enviado`, {
+        const resp = await fetch(`https://aprendamos-jugando-api.onrender.com/api/pedidos/${id}/enviado`, {
             method: "PATCH",
             headers: {
                 "Authorization": "Bearer " + token
@@ -118,4 +121,5 @@ async function marcarComoEnviado(id) {
     }
 }
 
+// Cargar pedidos al iniciar
 cargarPedidos();
