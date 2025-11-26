@@ -4,17 +4,16 @@
 
 const API_BASE = "https://aprendamos-jugando-api.onrender.com/api";
 
-// Token JWT almacenado localmente
 function getToken() {
-    return localStorage.getItem("token");
+    return sessionStorage.getItem("token");
 }
 
 function setToken(token) {
-    localStorage.setItem("token", token);
+    sessionStorage.setItem("token", token);
 }
 
 function logout() {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     window.location.href = "login.html";
 }
 

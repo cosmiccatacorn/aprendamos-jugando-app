@@ -27,5 +27,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Limpiar localStorage si quieres
-    // localStorage.removeItem('ultimoPedido');
+    localStorage.removeItem('ultimoPedido');
 });
