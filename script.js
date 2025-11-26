@@ -35,12 +35,24 @@ async function loginEmpleado(username, password) {
         }
 
         const data = await resp.json();
-        setToken(data.token);
+        
+        // Validar que la respuesta contiene el token
+        if (!data.token) {
+            alert("Error: No se recibió token del servidor");
+            console.error("Respuesta sin token:", data);
+            return;
+        }
 
+        // Guardar el token ANTES de redirigir
+        setToken(data.token);
+        console.log("Token guardado:", getToken()); // Debug
+
+        // Redirigir solo después de confirmar el token
         window.location.href = "dashboard.html";
 
     } catch (err) {
         console.error("Error login:", err);
+        alert("Error de conexión al servidor");
     }
 }
 
@@ -335,8 +347,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const isLoginPage = window.location.pathname.endsWith('login.html') 
         || window.location.pathname.endsWith('/login') 
         || Boolean(document.querySelector('form.login'));
+    
     if (isLoginPage && getToken()) {
         window.location.href = 'dashboard.html';
+        return;
+    }
+
+    // PROTEGER DASHBOARD: Si NO hay token y estamos en dashboard, redirige a login
+    const isDashboard = window.location.pathname.endsWith('dashboard.html');
+    if (isDashboard && !getToken()) {
+        alert("Debes iniciar sesión primero");
+        window.location.href = 'login.html';
         return;
     }
 
